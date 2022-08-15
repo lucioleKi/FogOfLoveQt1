@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Pages 1 Fog-of-Love.png</file>
+	<file>gender1.png</file>
+<file>gender2.png</file>
+    </qresource>
+</RCC>
