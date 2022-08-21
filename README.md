@@ -12,3 +12,9 @@ Please support the Fog of Love designers and buy the actual board game. I own a 
 Completed: Character creation and synopsis page. I've realized that my talent in UI design is totally non-existent LOL.
 
 Next step: Chapter and choose scene.
+
+8/21/2022
+
+Completed: Chapter page, Board page (where one can see player status and personality tokens). Improved the overall structure of various objects.
+
+Next step: Main game loop for regular scenes first. The plan is to make a 3-page-UI for choosing a scene->display the scene->resolve the scene.
