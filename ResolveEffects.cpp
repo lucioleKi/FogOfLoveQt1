@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "Session.h"
 #include "VocabTranslator.h"
+#include "BeforeScenes.h"
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -28,7 +29,7 @@ Session resolveEffectsC(Session session, Chapter chapter, int choice1, int choic
 		}
 		else {
 			std::cout << session.x1.getName() + ", select a DESTINY to discard:\n";
-			int temp = select(index);
+            int temp = select(index);
 			session.d1.at(hand.at(temp)).changeIn();
 		}
 		

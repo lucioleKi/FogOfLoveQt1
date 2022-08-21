@@ -25,8 +25,6 @@ set(PROJECT_SOURCES
         CharacterInitial.h
         CharacterInitial.cpp
         Enums.h
-        eventsignals.cpp
-        eventsignals.h
         Feature.cpp
         Feature.h
         Occupation.cpp
@@ -39,6 +37,7 @@ set(PROJECT_SOURCES
         ReadTxt.h
         ResolveEffects.cpp
         ResolveEffects.h
+        ResolveEffectsQt.cpp
         RunGameHelper.cpp
         RunGameHelper.h
         Scene.cpp

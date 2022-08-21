@@ -22,8 +22,7 @@ public:
 class Choice {
 private:
 	std::string description;
-	int choser_satis;
-	int other_satis;
+
 	std::vector<PersonalityDim> dims;
 	std::array<int, 3> nums;
 	std::string text;
@@ -31,16 +30,15 @@ private:
 public:
 	Choice(std::string d) { description = d; };
 	void setDescription(std::string d) { description = d; };
-	void setChoser(int c) { choser_satis = c; };
-	void setOther(int o) { other_satis = o; };
+
+
 	void setDims(std::vector<PersonalityDim> d) { dims = d; };
 	void setNums(std::array<int, 3> n) { nums = n; };
 	void setFull(std::string f) { text = f; };
 	void setCode(std::vector<std::string> c) { code = c; };
 	
 	std::string getDescription() { return description; };
-	int getChoser() { return choser_satis; };
-	int getOther() { return other_satis; };
+
 	std::vector<PersonalityDim> getDims() { return dims; };
 	std::array<int, 3> getNums() { return nums; };
 	std::string getFull() { return text; };

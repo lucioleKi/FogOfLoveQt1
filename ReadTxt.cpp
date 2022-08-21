@@ -123,7 +123,7 @@ std::vector<Chapter> importChapters(std::string fileName, std::string effects) {
 		c.setTitle(info[4]);
 		c.setLine(info[5]);
 		std::vector<Choice> choices;
-		for (int i = 6; i < info.size(); i++) {
+        for (int i = 6; i < info.size(); i++) {
 			Choice choice = { info[i] };
 			choices.push_back(choice);
 		}
@@ -175,7 +175,7 @@ Scene generateScene(std::vector<std::string> info) {
 	}
 	if (w == 'B'||w == 'P'||w =='C'||w =='S'||w =='E'||w =='N'||w == 'R') {
 		std::vector<Choice> choices;
-		for (int i = 6; i < info.size(); i++) {
+        for (int i = 6; i < info.size(); i++) {
 			Choice choice = { info[i] };
 			choices.push_back(choice);
 		}

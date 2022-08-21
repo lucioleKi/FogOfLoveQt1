@@ -190,26 +190,12 @@ std::string Choice::printFull() {
 		}
 	}
 
-	if (choser_satis > 0) {
-		x = x + "Chooser + " + std::to_string(choser_satis) + "\n";
 
-	}
-	else if (choser_satis < 0) {
-		x = x + "Chooser - " + std::to_string(choser_satis*(-1)) + "\n";
-	}
-
-	if (other_satis > 0) {
-		x = x + "Other + " + std::to_string(choser_satis) + "\n";
-
-	}
-	else if (choser_satis < 0) {
-		x = x + "Other - " + std::to_string(choser_satis * (-1)) + "\n";
-	}
 	x = x + text+"\n";
 
-	//for (int i = 0; i < code.size(); i++) {
-		//x = x + code.at(i)+", ";
-	//}
+    //for (int i = 0; i < code.size(); i++) {
+       // x = x + code.at(i)+", ";
+    //}
 	//if (code.size() > 0) {
 		//x = x + "\n";
 	//}

@@ -2,7 +2,6 @@
 #include "StartChar.h"
 #include "ResolveEffects.h"
 #include "RunGameHelper.h"
-#include "BeforeScenes.h"
 #include "CharacterInitial.h"
 #include "Trait.h"
 #include "Occupation.h"
@@ -11,6 +10,7 @@
 #include "SynopsisDestiny.h"
 #include "Shuffle.h"
 #include "ReadTxt.h"
+#include "BeforeScenes.h"
 #include <vector>
 #include <limits>
 #include <string>
@@ -20,69 +20,13 @@
 
 
 int startGame() {
-	Session session = startSession();
-	session = runGame(session);
-	session = resolution(session);
+
+    //session = runGame(session);
+    //session = resolution(session);
 	return 0;
 };
 
-Session startSession() {
-	readyGame();
-	Character x1 = startGender(1);
-	Character x2 = startGender(2);
-	std::vector<Trait> traits = importTraits("trait.txt");
-	dealCards<std::vector<Trait>> t3 = startTraits(traits);
-	traits = t3.deck;
-	std::vector<Trait> trait1 = t3.p1;
-	std::vector<Trait> trait2 = t3.p2;
-	std::vector<Occupation> occus = importOccus("occupation.txt");
-	dealCards<std::vector<Occupation>>o3 = startOccupation(occus);
-	occus = o3.deck;
-	Occupation occu1 = o3.p1.at(0);
-	Occupation occu2 = o3.p2.at(0);
-	std::vector<Feature> features = importFeatures("feature.txt");
-	dealCards<std::vector<Feature>> f3 = startFeatures(features);
-	features = f3.deck;
-	std::vector<Feature> fea1 = f3.p1;
-	std::vector<Feature> fea2 = f3.p2;
-	
-	//std::cout << features.at(features.size() - 1).printFull();
-	//std::cout << features.at(features.size() - 2).printFull();
-	PersonalityToken per = PersonalityToken();
-	
-	per.changeOccu(1, occu1);
-	per.changeOccu(2, occu2);
-	per.changeFeature(1, fea1.at(0));
-	per.changeFeature(1, fea1.at(1));
-	per.changeFeature(1, fea1.at(2));
-	per.changeFeature(2, fea2.at(0));
-	per.changeFeature(2, fea2.at(1));
-	per.changeFeature(2, fea2.at(2));
-	x1 = changeName(x1);
-	x2 = changeName(x2);
-	std::cout << "Now take a moment to introduce the characters you have created. Tell each other who your characters are in a few sentences.You should still not tell about how you met.\n";
-	std::cout << "Press enter to start the game: ";
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-
-	Synopsis plot = selectSynopsis();
-	//std::cout<< plot.printFull();
-	std::vector<Destiny> d1 = plot.getDestinies();
-	std::vector<Destiny> d2 = plot.getDestinies();
-	std::vector<Chapter> chapters = importChapters("chapters.txt", "chapterEffect.txt");
-	std::vector<Scene> sweetS = importScenes("scenesSweet.txt", "sceneEffectSweet.txt");
-	
-	std::vector<Scene> seriousS = importScenes("scenesSerious.txt", "sceneEffectSerious.txt");
-	std::vector<Scene> dramaS = importScenes("scenesDrama.txt", "sceneEffectDrama.txt");
-	
-	std::vector<Scene> hand1;
-	std::vector<Scene> hand2;
-	std::vector<std::string> c;
-	std::vector<Scene> secret1;
-	std::vector<Scene> secret2;
-	Session game{ x1, x2, traits, trait1, trait2, occus, occu1, occu2, features, fea1, fea2, per, plot, d1, d2, chapters, sweetS, seriousS, dramaS, hand1, hand2, c, secret1, secret2};
-	return game;
-};
 
 Session runGame(Session session) {
 	
@@ -96,10 +40,10 @@ Session runGame(Session session) {
 		char choice2;
 		std::cout << session.chapters.at(j).printFull();
 		std::cout << session.x1.getName() + ", make your choice for the chapter.\n";
-		int temp1 = select(session.chapters.at(j).getChoices().size());
+        int temp1 = 1;//select(session.chapters.at(j).getChoices().size());
 		choice1 = alphabet[temp1];
 		std::cout << session.x2.getName() + ", make your choice for the chapter.\n";
-		int temp2 = select(session.chapters.at(j).getChoices().size());
+        int temp2 = 1;//select(session.chapters.at(j).getChoices().size());
 		choice2 = alphabet[temp2];
 		session = resolveEffectsC(session, session.chapters.at(j), temp1, temp2);
 		int behalf = 0;
@@ -159,7 +103,7 @@ Session runGame(Session session) {
 					}
 					while ( session.hand1.at(index).getWho() == 'V') {
 						std::cout << session.x1.getName() + ", do you want to discard this minor scene?\n1 = Yes\n2 = No\n";
-						int temp = select(2);
+                        int temp = 1;//select(2);
 						if (temp == 0) {
 							session.hand1.erase(session.hand1.begin() + index);
 							session = drawFill(session, session.chapters.at(j).getDraw().at(0));
@@ -180,7 +124,7 @@ Session runGame(Session session) {
 					}
 					while (session.hand2.at(index).getWho() == 'V') {
 						std::cout << session.x2.getName() + ", do you want to discard this minor scene?\n1 = Yes\n2 = No\n";
-						int temp = select(2);
+                        int temp = 1;//select(2);
 						if (temp == 0) {
 							session.hand2.erase(session.hand2.begin() + index);
 							session = drawFill(session, session.chapters.at(j).getDraw().at(0));
@@ -221,7 +165,7 @@ Session runGame(Session session) {
 				//check if a reaction at place 0 can be played
 				session = reaction(session, scene, turn, 0);
 				std::cout << session.x1.getName() + ", make your choice for the scene.\n";
-				temp1 = select(scene.getChoices().size());
+                temp1 = 1;//select(scene.getChoices().size());
 				choice1 = alphabet[temp1];
 				session = reaction(session, scene, 1, 1);
 				session = reaction(session, scene, 2, 4);
@@ -229,11 +173,11 @@ Session runGame(Session session) {
 					position = std::find(session.carryOver.begin(), session.carryOver.end(), "R181") - session.carryOver.begin();
 					session.carryOver.erase(session.carryOver.begin() + session.carryOver.size() - 1);
 					std::cout << session.x1.getName() + ", make your choice for the scene again.\n";
-					temp1 = select(scene.getChoices().size());
+                    temp1 = 1;//select(scene.getChoices().size());
 					choice1 = alphabet[temp1];
 				}
 				std::cout << session.x2.getName() + ", make your choice for the scene.\n";
-				temp2 = select(scene.getChoices().size());
+                temp2 = 1;//select(scene.getChoices().size());
 				choice2 = alphabet[temp2];
 				session = reaction(session, scene, 2, 1);
 				session = reaction(session, scene, 1, 4);
@@ -241,7 +185,7 @@ Session runGame(Session session) {
 					position = std::find(session.carryOver.begin(), session.carryOver.end(), "R182") - session.carryOver.begin();
 					session.carryOver.erase(session.carryOver.begin() + session.carryOver.size() - 1);
 					std::cout << session.x2.getName() + ", make your choice for the scene again.\n";
-					temp2 = select(scene.getChoices().size());
+                    temp2 = 1;//select(scene.getChoices().size());
 					choice2 = alphabet[temp2];
 				}
 				session = reaction(session, scene, 0, 3);
@@ -285,7 +229,7 @@ Session runGame(Session session) {
 						}
 						session.carryOver.erase(session.carryOver.begin() + position);
 						std::cout << session.x1.getName() + ", make your choice for the scene again.\n";
-						temp1 = select(scene.getChoices().size());
+                        temp1 = 1;//select(scene.getChoices().size());
 						choice1 = alphabet[temp1];
 					}else if (std::find(session.carryOver.begin(), session.carryOver.end(), "R302") != session.carryOver.end() || std::find(session.carryOver.begin(), session.carryOver.end(), "R162") != session.carryOver.end()) {
 						if (std::find(session.carryOver.begin(), session.carryOver.end(), "R302") != session.carryOver.end()) {
@@ -296,7 +240,7 @@ Session runGame(Session session) {
 						}
 						session.carryOver.erase(session.carryOver.begin() + session.carryOver.size() - 1);
 						std::cout << session.x2.getName() + ", make your choice for the scene again.\n";
-						temp2 = select(scene.getChoices().size());
+                        temp2 = 1;//select(scene.getChoices().size());
 						choice2 = alphabet[temp2];
 					}
 					if (std::find(session.carryOver.begin(), session.carryOver.end(), "RS301") != session.carryOver.end()) {
@@ -393,7 +337,7 @@ Session runGame(Session session) {
 					}
 				}
 				
-				int temp = select(scene.getChoices().size());
+                int temp = 1;//select(scene.getChoices().size());
 				choice1 = alphabet[temp];
 				session = reaction(session, scene, turn, 1);
 				if (turn == 1) {
@@ -429,7 +373,7 @@ Session runGame(Session session) {
 						
 						session.carryOver.erase(session.carryOver.begin() + position);
 						std::cout << session.x1.getName() + ", make your choice for the scene again.\n";
-						temp = select(scene.getChoices().size());
+                        temp = 1;//select(scene.getChoices().size());
 						choice1 = alphabet[temp];
 						
 					}
@@ -443,7 +387,7 @@ Session runGame(Session session) {
 						}
 						session.carryOver.erase(session.carryOver.begin() + position);
 						std::cout << session.x2.getName() + ", make your choice for the scene again.\n";
-						temp = select(scene.getChoices().size());
+                        temp = 1;//select(scene.getChoices().size());
 						choice1 = alphabet[temp];
 					}
 				}
@@ -521,7 +465,7 @@ Session runGame(Session session) {
 
 						std::cout << scene.printFull();
 						if (scene.getWho() == 'C') {
-							int temp = select(scene.getChoices().size());
+                            int temp = 1;//select(scene.getChoices().size());
 							choice1 = alphabet[temp];
 							session = resolveEffectsP(session, turn, scene, temp);
 						}
@@ -562,7 +506,7 @@ Session runGame(Session session) {
 					scene = session.secret2.at(0);
 					std::cout << scene.printFull();
 					if (scene.getWho() == 'C') {
-						int temp = select(scene.getChoices().size());
+                        int temp = 1;//select(scene.getChoices().size());
 						choice1 = alphabet[temp];
 						session = resolveEffectsP(session, turn, scene, temp);
 					}
@@ -576,7 +520,7 @@ Session runGame(Session session) {
 					scene = session.secret1.at(0);
 					std::cout << scene.printFull();
 					if (scene.getWho() == 'C') {
-						int temp = select(scene.getChoices().size());
+                        int temp = 1;//select(scene.getChoices().size());
 						choice1 = alphabet[temp];
 						session = resolveEffectsP(session, turn, scene, temp);
 					}
@@ -589,7 +533,7 @@ Session runGame(Session session) {
 			}
 
 			std::cout << "All effects are resolved for this scene. \n1 = Start the next scene.\n2 = View the current game board.\n";
-			int next = select(2);
+            int next = 1;//select(2);
 			if (next == 1) {
 				seeBoard(session, turn);
 			}

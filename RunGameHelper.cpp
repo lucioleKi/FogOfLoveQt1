@@ -27,7 +27,7 @@ Session specialOp(Session session, int index, Deck deck, int turn, Scene scene) 
 				std::cout << std::to_string(i + 1) + " = " + session.hand1.at(i).getTitle() + "\n";
 			}
 			std::cout << std::to_string(session.hand1.size() + 1) + " = Discard no scene.\n";
-			int temp = select(session.hand1.size() + 1);
+            int temp = 1;//select(session.hand1.size() + 1);
 			if (temp == session.hand1.size()) {
 				session.hand1.push_back(scene);
 				return session;

@@ -764,7 +764,7 @@ Session TRADE(Session session) {
 		std::cout << session.hand2.at(i).getTitle() + "\n";
 	}
 	std::cout << "Select a SCENE to give to " + session.x1.getName()+":\n";
-	int t2 = select(session.hand2.size());
+    int t2 = select(session.hand2.size());
 	session.hand1.push_back(session.hand2.at(t2));
 	session.hand2.push_back(session.hand1.at(t1));
 	session.hand1.erase(session.hand1.begin() + t1);
@@ -779,7 +779,7 @@ void STELLL(Session session, int chooser) {
 			int temp = rand() / RAND_MAX * session.secret1.size();
 			std::cout << session.secret1.at(temp).getTitle();
 			std::cout << "\nTell " + session.x2.getName() + " whether you think it is beneficial for them to reveal it or not. \n1 = Yes\n2 = No\n";
-			int choice = select(2);
+            int choice = select(2);
 
 		}
 	}
@@ -789,7 +789,7 @@ void STELLL(Session session, int chooser) {
 			int temp = rand() / RAND_MAX * session.secret2.size();
 			std::cout << session.secret2.at(temp).getTitle();
 			std::cout << "\nTell " + session.x1.getName() + " whether you think it is beneficial for them to reveal it or not. \n1 = Yes\n2 = No\n";
-			int choice = select(2);
+            int choice = select(2);
 
 		}
 	}

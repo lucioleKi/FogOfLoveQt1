@@ -2,8 +2,8 @@
 #include "Enums.h"
 #include "Scene.h"
 #include "Session.h"
-#include "BeforeScenes.h"
 #include "Shuffle.h"
+#include "BeforeScenes.h"
 #include <vector>
 #include <time.h>
 #include <string>

@@ -6,19 +6,19 @@
 #include "SynopsisDestiny.h"
 
 struct Session {
-	Character x1;
-	Character x2;
+    Character x1{(1)};
+    Character x2{(2)};
 	std::vector<Trait> traits;
 	std::vector<Trait> traits1;
 	std::vector<Trait> traits2;
 	std::vector<Occupation> occu;
-	Occupation occu1;
-	Occupation occu2;
+    Occupation occu1{"test", Discipline, 0};
+    Occupation occu2{"test", Discipline, 0};
 	std::vector<Feature> features;
 	std::vector<Feature> fea1;
 	std::vector<Feature> fea2;
 	PersonalityToken per;
-	Synopsis plot;
+    Synopsis plot{};
 	std::vector<Destiny> d1;
 	std::vector<Destiny> d2;
 	std::vector<Chapter> chapters;

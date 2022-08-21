@@ -48,5 +48,5 @@ std::string Trait::printFull() {
 		y = "Sincerity";
 		break;
 	}
-    return trai_name + "\n" + trai_desc + "\nTrait goal: " + x + " " + y + "\nbalance is " + std::to_string(trai_num) + " or more.\n";
+    return trai_name + "\n" + trai_desc + "\nTrait goal: " + x + " " + y + " balance is " + std::to_string(trai_num) + " or more.\n";
 };

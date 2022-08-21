@@ -94,7 +94,7 @@ std::vector<T> Vocab(std::vector<T> x, std::map<std::string, std::string> pairs)
 						else {
 							if (pairs.find(x.at(i).getAddis().at(j).getCode().at(k)) != pairs.end()) {
 								std::string s = pairs.find(addi.getCode().at(k))->second;
-								//std::cout << s + "\n";
+
 								addi.setFull(addi.getFull() + s + " ");
 							}
 						}
@@ -157,3 +157,5 @@ T CancelEffect(T x, int player, PersonalityDim d, int number) {
 	std::cout << x.per.printFull();
 	return x;
 };
+
+
