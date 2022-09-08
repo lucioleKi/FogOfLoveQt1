@@ -18,3 +18,7 @@ Next step: Chapter and choose scene.
 Completed: Chapter page, Board page (where one can see player status and personality tokens). Improved the overall structure of various objects.
 
 Next step: Main game loop for regular scenes first. The plan is to make a 3-page-UI for choosing a scene->display the scene->resolve the scene.
+
+9/8/2022
+
+This project is currently on hiatus right now. I implemented most personality-token and satisfaction related events. It's just I found reimplementing all other events being repetitive and tiring. The debugger is also not to my liking. Whenever I try to debug, it felt too time-consuming and unfruitful. I want to continue learning more than anything else. Maybe one day I will learn enough about game development so that I can come back here and finish this project.
