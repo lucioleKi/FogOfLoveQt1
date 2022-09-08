@@ -22,9 +22,11 @@ set(PROJECT_SOURCES
 
         BeforeScenes.h
         BeforeScenes.cpp
+        BeforeScenesQt.cpp
         CharacterInitial.h
         CharacterInitial.cpp
         Enums.h
+        EffectsNoSwitch.cpp
         Feature.cpp
         Feature.h
         Occupation.cpp
@@ -50,6 +52,7 @@ set(PROJECT_SOURCES
         SynopsisDestiny.h
         Trait.cpp
         Trait.h
+        VocabDestinyQt.cpp
         VocabTranslator.cpp
         VocabTranslator.h
         chapterEffect.txt

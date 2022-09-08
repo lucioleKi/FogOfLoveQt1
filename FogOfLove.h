@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QEventLoop>
 #include "StartChar.h"
 #include "RunGameHelper.h"
 #include "Session.h"
@@ -24,8 +25,21 @@ public:
     void setPageDestiny(int c);
     void setPageTraits(int c);
     void setPageSecret(int c);
-    void setSceneSelect(int c);
+    void setSceneSelect();
     void resolveEffectsCQt(int choice, int player);
+    void setSceneDisplay();
+    void pageSwitch(std::vector<std::string> code);
+
+    void drawFill();
+    //destiny page
+    void RI(int player, std::string destiny);
+    void RK(int player);
+    void SI(int player, std::string destiny);
+    void SO(int player, std::string destiny);
+    //void RD(int player) take RK parameter 3 and 4;
+    void RR(int player);
+    //occupation page
+    void CO(int player);
 
     ~MainWindow();
 signals:
@@ -45,7 +59,11 @@ private:
     Session session;
     int turn;
     int chapter;
+    int counter;
     Scene scene;
+    std::vector<int> pages;
+    std::vector<std::string> codeT;
+
 
 
 
@@ -62,6 +80,7 @@ private slots:
     void on_b9Ready();
     void on_b10Ready();
     void on_b11Ready();
+    //destiny->back to board button
     void on_b24Ready();
     void on_page3();
     void on_page4();
@@ -85,14 +104,33 @@ private slots:
     void go_Traits2();
     void go_Secret1();
     void go_Secret2();
-    void go_selectScene1();
-    void go_selectScene2();
+
+    void go_selectScene();
+    //select scene page
     void go_displayScene();
     void on_selectReady();
+    //left and right buttons on select scene page
+    void go_prevScene();
+    void go_nextScene();
+    //destiny page
     void on_player1Destiny();
     void on_player2Destiny();
     void changeDestiny();
-    void cEffectEnd();
+    void destinyEffectEnd();
+    void on_RK();
+    void on_SI();
+    //enable submit for both choose
+    void on_sceneReady();
+    //type R and N
+    void go_discardRN();
+    //type B
+    void go_sceneB();
+    void bothPT(int temp1, int temp2);
+    void resolveChoice(int chooser, int player, std::vector<std::string> code);
+    //type P
+    void go_sceneP();
+    //to specific page
+    void go_page();
 };
 
 

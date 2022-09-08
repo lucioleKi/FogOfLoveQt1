@@ -73,23 +73,6 @@ std::vector<Trait> importTraits(std::string fileName) {
     //std::string text = "Patient	Able to remain calm and not become annoyed while experiencing delays and problems.	0	5	3\n         Promiscuous	Having an unselective and casual approach to engaging in sexual relationships.	0	1	1\nJealous	Showing envious resentment of others' success. Being suspicious and possessive towards others.	0	4	3\nJust	Having a strong sense of what's right and what's wrong.	1	5	5\nTask-oriented	Concerned with one's activities and goals rather than other people.	1	2	-5\nPerfectionist	Refusing to accept anything less than perfection. Demands the highest standards possible.	1	0	5\nSpiritual	Embracing the humble belief that there are things greater than oneself.	0	5	3\nNarrow-minded	Judgmental and unreceptive to novel ideas or opinion.	1	1	-5\n            Greedy	Having an excessive and selfish desire for money or possessions.	0	5	-3\nIntense	Passionate, vocal and very serious about one's emotions and thoughts.	0	2	3\nIrresponsible	Taking actions without thought arcading about the impact of t those actions on others.	0	0	-3\nAdventurous	Willing to take risks and try new experiences, showing boldness in doing so.	1	1	5\nManipulative	Scheming and trying to influence the behavior of others for one's own advantage.	1	5	-5\nSensual	Appreciating arousing gratification of the senses; seeking to explore sensory pleasure.	1	1	5\nSubservient	Prepared to obey others without questions, considering own wishes as less important.	0	4	3\nDisorganized	Lacking coherence or systematic structure leading to various levels of disorder.	1	0	-5\nConservative	Favors traditional views and values. Often in opposition to change.	1	1	-5\nMacho	Aggressive pride in one's masculine qualities; being overly assertive and dominating.	1	4	-5\nHardened	Able to withstand hardship and deal with bad experiences without being emotionally affected.	0	3	-3\nAmbitious	Driven by a strong desire to reach hard-to-achieve goals.	1	0	5\nPretentious	Characterized by a showiness exaggerating one's dignity or importance.	0	5	-3\nImpulsive	Acting without forethought, following spontaneous desires or whims.	1	0	-5\nSecure	Free from anxiety and with a strong sense of oneself. Unafraid to engage with others.	0	3	-3\nFlirtatious	Inclined to playfully suggest sexual attraction without serious intent.	0	2	5\nKind	Having a benevolent nature and an attitude of friendliness.	1	4	5\nShy	Feeling uncomfortable and awkward in proximity of others, especially unfamiliar people.	0	2	-3\nHypocritical	Pretending to have higher standards and being more virtuous than is the case.	1	5	-5\nWorrywart	Inclined to excessive wording, especially about unimportant matters.	1	3	5\nWorkaholic	Compulsively working excessively hard, sacrificing other interests and responsibilities.	0	0	3\nCynical	Having an arrogant mistrust of others, believing all people are driven by pure self-interest.	1	4	-5\nInnocent	Being of pure intent and motive.	1	5	5\nRelaxed	Free from stress and tension. Feels on top of everything that happens.	1	3	-5\nInsecure	Lack of confidence, in particular self-confidence.	0	3	3\n            Cocky	Self-confident to a degree that is rude and arrogant.	0	4	-3\nDown-to-earth	Simple and straightforward. Prefers practical and proven approaches.	0	1	-3\nFun-loving	Cheerful, energetic and likes to have a good time.	1	2	5\nNurturing	Lovingly caring and protective of others to help them grow and develop.	1	4	5\nWithdrawn	Socially detached, preferring to be alone or observed at a distance.	1	2	-5\n";
 	std::string line;
 	std::vector<Trait> traits;
-
-    /*for(int i=0; i<38; i++){
-        std::cout<<"1";
-        std::vector<std::string> info;
-        line = text.substr(0, text.find("\n"));
-        std::cout<<"2";
-        text.erase(0, line.size());
-        split(line, '\t', info);
-        int goalType = std::stoi(info[2]);
-        TraitGoalType g = (TraitGoalType)goalType;
-        int temp = std::stoi(info[3]);
-        PersonalityDim p = (PersonalityDim)temp;
-        int number = std::stoi(info[4]);
-        Trait t = Trait{info[0], info[1], g, p, number};
-        traits.push_back(t);
-    }*/
-
     while (std::getline(fs, line)) {
 
 		std::vector<std::string> info;
@@ -149,7 +132,7 @@ std::vector<Scene> importScenes(std::string fileName, std::string effects) {
 	scenes = importEffects(scenes, effects);
 	std::map<std::string, std::string> vocab = importVocab("vocabulary.txt");
 	scenes = Vocab(scenes, vocab);
-	scenes = Shuffle(scenes);
+    scenes = Shuffle(scenes);
 	return scenes;
 };
 

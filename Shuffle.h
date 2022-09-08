@@ -84,11 +84,11 @@ std::vector<T> Vocab(std::vector<T> x, std::map<std::string, std::string> pairs)
 						if (x.at(i).getAddis().at(j).getCode().at(k).find_first_of("0123456789") != std::string::npos) {
 							if (std::stoi(x.at(i).getAddis().at(j).getCode().at(k)) > 0) {
 								//std::cout << std::to_string(std::stoi(x.at(i).getAddis().at(j).getCode().at(k)));
-								addi.setFull(addi.getFull() + "+ " + addi.getCode().at(k) + ". ");
+                                addi.setFull(addi.getFull() + " + " + addi.getCode().at(k) + ". ");
 							}
 							else {
 								//std::cout << std::to_string(std::stoi(x.at(i).getAddis().at(j).getCode().at(k)));
-								addi.setFull(addi.getFull() + "- " + std::to_string(std::stoi(x.at(i).getAddis().at(j).getCode().at(k)) * (-1)) + ". ");
+                                addi.setFull(addi.getFull() + " - " + std::to_string(std::stoi(x.at(i).getAddis().at(j).getCode().at(k)) * (-1)) + ". ");
 							}
 						}
 						else {

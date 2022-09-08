@@ -1,4 +1,5 @@
 #include "FogOfLove.h"
+#include "ResolveEffects.h"
 #include "./ui_mainwindow.h"
 #include <iostream>
 #include <QtCore>
@@ -23,127 +24,7 @@ void MainWindow::on_pushButton2Clicked(){
 }
 
 
-void MainWindow::on_b4Enable2(){
-    QButtonGroup* genderGroup1 = new QButtonGroup;
-    genderGroup1->addButton(ui->radioButton);
-    genderGroup1->addButton(ui->radioButton_2);
-    genderGroup1->addButton(ui->radioButton_3);
-    QButtonGroup* genderGroup2 = new QButtonGroup;
-    genderGroup2->addButton(ui->radioButton_7);
-    genderGroup2->addButton(ui->radioButton_8);
-    genderGroup2->addButton(ui->radioButton_9);
-    QButtonGroup* occuGroup1 = new QButtonGroup;
-    occuGroup1->addButton(ui->radioButton_10);
-    occuGroup1->addButton(ui->radioButton_11);
-    occuGroup1->addButton(ui->radioButton_12);
-    QButtonGroup* occuGroup2 = new QButtonGroup;
-    occuGroup2->addButton(ui->radioButton_13);
-    occuGroup2->addButton(ui->radioButton_14);
-    occuGroup2->addButton(ui->radioButton_15);
-    int traitCount1 = 0;
-    int traitCount2 = 0;
-    if(ui->checkBox->checkState()!=0){
-        traitCount1++;
-    }
-    if(ui->checkBox_2->checkState()!=0){
-        traitCount1++;
-    }
-    if(ui->checkBox_3->checkState()!=0){
-        traitCount1++;
-    }
-    if(ui->checkBox_4->checkState()!=0){
-        traitCount1++;
-    }
-    if(ui->checkBox_5->checkState()!=0){
-        traitCount1++;
-    }
 
-    if(ui->checkBox_6->checkState()!=0){
-        traitCount2++;
-    }
-    if(ui->checkBox_7->checkState()!=0){
-        traitCount2++;
-    }
-    if(ui->checkBox_8->checkState()!=0){
-        traitCount2++;
-    }
-    if(ui->checkBox_9->checkState()!=0){
-        traitCount2++;
-    }
-    if(ui->checkBox_10->checkState()!=0){
-        traitCount2++;
-    }
-
-    if(genderGroup1->checkedId()!=-1){
-        emit page2Ready();
-    }
-    if(genderGroup2->checkedId()!=-1){
-        emit page3Ready();
-    }
-    if(traitCount1==3){
-        emit page4Ready();
-    }else{
-         ui->pushButton_6->setDisabled(true);
-    }
-    if(traitCount2==3){
-        emit page5Ready();
-    }else{
-        ui->pushButton_7->setDisabled(true);
-    }
-    if(occuGroup1->checkedId()!=-1){
-        emit page6Ready();
-    }
-    if(occuGroup2->checkedId()!=-1){
-        emit page7Ready();
-    }
-}
-
-void MainWindow::on_featureTurn(){
-
-    int turn1 = 0;
-    int turn2 = 0;
-    if(ui->checkBox_11->checkState()!=0){
-        turn1++;
-    }
-    if(ui->checkBox_12->checkState()!=0){
-        turn1++;
-    }
-    if(ui->checkBox_13->checkState()!=0){
-        turn1++;
-    }
-    if(ui->checkBox_14->checkState()!=0){
-        turn1++;
-    }
-    if(ui->checkBox_15->checkState()!=0){
-        turn1++;
-    }
-
-    if(ui->checkBox_16->checkState()!=0){
-        turn2++;
-    }
-    if(ui->checkBox_17->checkState()!=0){
-        turn2++;
-    }
-    if(ui->checkBox_18->checkState()!=0){
-        turn2++;
-    }
-    if(ui->checkBox_19->checkState()!=0){
-        turn2++;
-    }
-    if(ui->checkBox_20->checkState()!=0){
-        turn2++;
-    }
-    if(turn1==3&&turn2==3){
-        emit page8Ready();
-    }else{
-        ui->pushButton_10->setDisabled(true);
-    }
-    if(ui->lineEdit->text()!=""&&ui->lineEdit_2->text()!=""){
-        emit page9Ready();
-    }else{
-        ui->pushButton_11->setDisabled(true);
-    }
-}
 
 void MainWindow::on_chapterReady(){
     QButtonGroup* choiceGroup1 = new QButtonGroup;
@@ -162,6 +43,65 @@ void MainWindow::on_chapterReady(){
     }
 }
 
+void MainWindow::go_prevScene(){
+
+    if(turn==1){
+        for(int i=1; i<session.hand1.size(); i++){
+            if(ui->label_87->text()==QString::fromStdString(session.hand1.at(i).printFull())){
+                ui->label_87->setText(QString::fromStdString(session.hand1.at(i-1).printFull()));
+                if(i==1){
+                    ui->toolButton->setDisabled(true);
+                }
+                ui->pushButton_27->setText(QString::fromStdString(std::to_string(i)));
+                break;
+            }
+        }
+    }else{
+        for(int i=1; i<session.hand2.size(); i++){
+            if(ui->label_87->text()==QString::fromStdString(session.hand2.at(i).printFull())){
+                ui->label_87->setText(QString::fromStdString(session.hand2.at(i-1).printFull()));
+                if(i==1){
+                    ui->toolButton->setDisabled(true);
+                }
+                ui->pushButton_27->setText(QString::fromStdString(std::to_string(i)));
+                break;
+            }
+        }
+    }
+
+
+    ui->toolButton_2->setEnabled(true);
+}
+
+void MainWindow::go_nextScene(){
+
+    if(turn==1){
+        for(int i=session.hand1.size()-2; i>-1; i--){
+            if(ui->label_87->text()==QString::fromStdString(session.hand1.at(i).printFull())){
+                ui->label_87->setText(QString::fromStdString(session.hand1.at(i+1).printFull()));
+                if(i==session.hand1.size()-2){
+                    ui->toolButton_2->setDisabled(true);
+                }
+                ui->pushButton_27->setText(QString::fromStdString(std::to_string(i)));
+                break;
+            }
+        }
+    }else{
+        for(int i=session.hand2.size()-2; i>-1; i--){
+            if(ui->label_87->text()==QString::fromStdString(session.hand2.at(i).printFull())){
+                ui->label_87->setText(QString::fromStdString(session.hand2.at(i+1).printFull()));
+                if(i==session.hand2.size()-2){
+                    ui->toolButton_2->setDisabled(true);
+                }
+                ui->pushButton_27->setText(QString::fromStdString(std::to_string(i)));
+                break;
+            }
+        }
+    }
+
+    ui->toolButton->setEnabled(true);
+}
+
 void MainWindow::on_selectReady(){
     QButtonGroup* selectGroup1 = new QButtonGroup;
     selectGroup1->addButton(ui->radioButton_16);
@@ -177,88 +117,36 @@ void MainWindow::on_selectReady(){
     }
 }
 
-void MainWindow::on_b4Ready(){
-    ui->pushButton_4->setEnabled(true);
+void MainWindow::on_sceneReady(){
+    QButtonGroup* choiceGroup1 = new QButtonGroup;
+    choiceGroup1->addButton(ui->radioButton_39);
+    choiceGroup1->addButton(ui->radioButton_40);
+    choiceGroup1->addButton(ui->radioButton_41);
+    choiceGroup1->addButton(ui->radioButton_45);
+    QButtonGroup* choiceGroup2 = new QButtonGroup;
+    choiceGroup2->addButton(ui->radioButton_42);
+    choiceGroup2->addButton(ui->radioButton_43);
+    choiceGroup2->addButton(ui->radioButton_44);
+    choiceGroup1->addButton(ui->radioButton_46);
+    if(choiceGroup1->checkedId()!=-1){
+        ui->pushButton_28->setEnabled(true);
+    }
+    if(choiceGroup2->checkedId()!=-1){
+        ui->pushButton_29->setEnabled(true);
+    }
 }
 
-void MainWindow::on_b5Ready(){
-    ui->pushButton_5->setEnabled(true);
-}
-
-void MainWindow::on_b6Ready(){
-    ui->pushButton_6->setEnabled(true);
-}
-
-void MainWindow::on_b7Ready(){
-    ui->pushButton_7->setEnabled(true);
-}
-
-void MainWindow::on_b8Ready(){
-    ui->pushButton_8->setEnabled(true);
-}
-
-void MainWindow::on_b9Ready(){
-    ui->pushButton_9->setEnabled(true);
-}
-
-void MainWindow::on_b10Ready(){
-    ui->pushButton_10->setEnabled(true);
-}
-
-void MainWindow::on_b11Ready(){
-    ui->pushButton_11->setEnabled(true);
-}
-
-void MainWindow::on_page3(){
-   ui->stackedWidget->setCurrentIndex(2);
-}
-
-void MainWindow::on_page4(){
-   ui->stackedWidget->setCurrentIndex(3);
-}
-
-void MainWindow::on_page5(){
-    ui->stackedWidget->setCurrentIndex(4);
-}
-
-void MainWindow::on_page6(){
-    ui->stackedWidget->setCurrentIndex(5);
-}
-
-void MainWindow::on_page7(){
-    ui->stackedWidget->setCurrentIndex(6);
-}
-
-void MainWindow::on_page8(){
-    ui->stackedWidget->setCurrentIndex(7);
-}
-
-void MainWindow::on_page9(){
-    ui->stackedWidget->setCurrentIndex(8);
-}
-
-void MainWindow::on_page10(){
-    setPage3();
-    ui->stackedWidget->setCurrentIndex(9);
-}
-
-void MainWindow::on_page11(){
-
-        setPageChapter1(chapter);
-        ui->stackedWidget->setCurrentIndex(10);
-
-}
 
 void MainWindow::on_page12(){
     if(ui->pushButton_13->isEnabled()){
-        ui->pushButton_13->setDisabled(true);
+        ui->pushButton_13->setVisible(false);
         ui->radioButton_4->setVisible(false);
         ui->radioButton_5->setVisible(false);
         ui->radioButton_6->setVisible(false);
         ui->label_52->setText(QString::fromStdString(session.x1.getName()+" has chosen."));
     }
     if(ui->pushButton_15->isEnabled()){
-        ui->pushButton_15->setDisabled(true);
+        ui->pushButton_15->setVisible(false);
         ui->radioButton_19->setVisible(false);
         ui->radioButton_20->setVisible(false);
         ui->radioButton_21->setVisible(false);
@@ -293,7 +181,7 @@ void MainWindow::on_page12(){
             std::vector<std::string> effects = session.chapters.at(chapter-1).getAddis().at(additionalMatch).getCode();
             session.x1.setSatisfaction(std::stoi(effects.at(2)));
             session.x2.setSatisfaction(std::stoi(effects.at(2)));
-        };
+        }
         if(chapter!=1){
             on_player1Destiny();
         }else{
@@ -341,294 +229,353 @@ void MainWindow::go_Secret2(){
     ui->stackedWidget->setCurrentIndex(14);
 }
 
-void MainWindow::go_selectScene1(){
-    setSceneSelect(1);
+void MainWindow::go_selectScene(){
+    setSceneSelect();
     ui->stackedWidget->setCurrentIndex(15);
 }
 
-void MainWindow::go_selectScene2(){
-    setSceneSelect(2);
-    ui->stackedWidget->setCurrentIndex(15);
-}
+
 
 void MainWindow::go_displayScene(){
+    ui->label_92->setFixedHeight(21);
+    ui->label_93->setFixedHeight(21);
+    disconnect(ui->pushButton_28, SIGNAL(clicked()), 0, 0);
+    disconnect(ui->pushButton_29, SIGNAL(clicked()), 0, 0);
+
+    std::cout<<std::to_string(session.hand1.size());
+    std::cout<<std::to_string(session.hand2.size());
+    if(turn==1){
+        if(ui->radioButton_16->isChecked()){
+            scene = session.hand1.at(0);
+            session.hand1.erase(session.hand1.begin());
+        }else if(ui->radioButton_17->isChecked()){
+            scene = session.hand1.at(1);
+            session.hand1.erase(session.hand1.begin()+1);
+        }else if(ui->radioButton_18->isChecked()){
+            scene = session.hand1.at(2);
+            session.hand1.erase(session.hand1.begin()+2);
+        }else if(ui->radioButton_22->isChecked()){
+            scene = session.hand1.at(3);
+            session.hand1.erase(session.hand1.begin()+3);
+        }else if(ui->radioButton_23->isChecked()){
+            scene = session.hand1.at(4);
+            session.hand1.erase(session.hand1.begin()+4);
+        }else if(ui->radioButton_24->isChecked()){
+            scene = session.hand1.at(5);
+            session.hand1.erase(session.hand1.begin()+5);
+        }else if(ui->radioButton_25->isChecked()){
+            scene = session.hand1.at(6);
+            session.hand1.erase(session.hand1.begin()+6);
+        }else if(ui->radioButton_26->isChecked()){
+            scene = session.hand1.at(7);
+            session.hand1.erase(session.hand1.begin()+7);
+        }
+    }else{
+        if(ui->radioButton_16->isChecked()){
+            scene = session.hand2.at(0);
+            session.hand2.erase(session.hand2.begin());
+        }else if(ui->radioButton_17->isChecked()){
+            scene = session.hand2.at(1);
+            session.hand2.erase(session.hand2.begin()+1);
+        }else if(ui->radioButton_18->isChecked()){
+            scene = session.hand2.at(2);
+            session.hand2.erase(session.hand2.begin()+2);
+        }else if(ui->radioButton_22->isChecked()){
+            scene = session.hand2.at(3);
+            session.hand2.erase(session.hand2.begin()+3);
+        }else if(ui->radioButton_23->isChecked()){
+            scene = session.hand2.at(4);
+            session.hand2.erase(session.hand2.begin()+4);
+        }else if(ui->radioButton_24->isChecked()){
+            scene = session.hand2.at(5);
+            session.hand2.erase(session.hand2.begin()+5);
+        }else if(ui->radioButton_25->isChecked()){
+            scene = session.hand2.at(6);
+            session.hand2.erase(session.hand2.begin()+6);
+        }else if(ui->radioButton_26->isChecked()){
+            scene = session.hand2.at(7);
+            session.hand2.erase(session.hand2.begin()+7);
+        }
+    }
+    disconnect(ui->radioButton_16, SIGNAL(clicked()), 0, 0);
+    disconnect(ui->radioButton_17, SIGNAL(clicked()), 0, 0);
+    disconnect(ui->radioButton_18, SIGNAL(clicked()), 0, 0);
+    disconnect(ui->radioButton_22, SIGNAL(clicked()), 0, 0);
+    disconnect(ui->radioButton_23, SIGNAL(clicked()), 0, 0);
+    disconnect(ui->radioButton_24, SIGNAL(clicked()), 0, 0);
+    disconnect(ui->radioButton_25, SIGNAL(clicked()), 0, 0);
+    disconnect(ui->radioButton_26, SIGNAL(clicked()), 0, 0);
+    setSceneDisplay();
     ui->stackedWidget->setCurrentIndex(16);
 }
 
-void MainWindow::setPage2(){
-    //disable all buttons in character creation
-    ui->pushButton_4->setDisabled(true);
-    ui->pushButton_5->setDisabled(true);
-    ui->pushButton_6->setDisabled(true);
-    ui->pushButton_7->setDisabled(true);
-    ui->pushButton_8->setDisabled(true);
-    ui->pushButton_9->setDisabled(true);
-    ui->pushButton_10->setDisabled(true);
-    ui->pushButton_11->setDisabled(true);
-    ui->pushButton_13->setDisabled(true);
-    ui->pushButton_15->setDisabled(true);
-
-    //select gender
-    QButtonGroup* genderGroup1 = new QButtonGroup;
-    genderGroup1->addButton(ui->radioButton);
-    genderGroup1->addButton(ui->radioButton_2);
-    genderGroup1->addButton(ui->radioButton_3);
-    QButtonGroup* genderGroup2 = new QButtonGroup;
-    genderGroup2->addButton(ui->radioButton_7);
-    genderGroup2->addButton(ui->radioButton_8);
-    genderGroup2->addButton(ui->radioButton_9);
-
-    //draw traits
-    session.traits = importTraits("trait.txt");
-    std::vector<Trait> trait1 = {session.traits.at(0), session.traits.at(1), session.traits.at(2), session.traits.at(3), session.traits.at(4)};
-    std::vector<Trait> trait2 = {session.traits.at(5), session.traits.at(6), session.traits.at(7), session.traits.at(8), session.traits.at(9)};
-    ui->label_4->setText(QString::fromStdString(trait1.at(0).printFull()));
-    ui->label_5->setText(QString::fromStdString(trait1.at(1).printFull()));
-    ui->label_12->setText(QString::fromStdString(trait1.at(2).printFull()));
-    ui->label_13->setText(QString::fromStdString(trait1.at(3).printFull()));
-    ui->label_14->setText(QString::fromStdString(trait1.at(4).printFull()));
-    ui->label_18->setText(QString::fromStdString(trait2.at(0).printFull()));
-    ui->label_19->setText(QString::fromStdString(trait2.at(1).printFull()));
-    ui->label_20->setText(QString::fromStdString(trait2.at(2).printFull()));
-    ui->label_21->setText(QString::fromStdString(trait2.at(3).printFull()));
-    ui->label_22->setText(QString::fromStdString(trait2.at(4).printFull()));
-
-    //draw occupations
-    session.occu = importOccus("occupation.txt");
-    std::vector<Occupation> occus1 = { session.occu.at(0), session.occu.at(1), session.occu.at(2) };
-    std::vector<Occupation> occus2 = { session.occu.at(3), session.occu.at(4), session.occu.at(5) };
-    ui->radioButton_10->setText(QString::fromStdString(occus1.at(0).printFull()));
-    ui->radioButton_11->setText(QString::fromStdString(occus1.at(1).printFull()));
-    ui->radioButton_12->setText(QString::fromStdString(occus1.at(2).printFull()));
-    ui->radioButton_13->setText(QString::fromStdString(occus2.at(0).printFull()));
-    ui->radioButton_14->setText(QString::fromStdString(occus2.at(1).printFull()));
-    ui->radioButton_15->setText(QString::fromStdString(occus2.at(2).printFull()));
-    QButtonGroup* occuGroup1 = new QButtonGroup;
-    occuGroup1->addButton(ui->radioButton_10);
-    occuGroup1->addButton(ui->radioButton_11);
-    occuGroup1->addButton(ui->radioButton_12);
-    QButtonGroup* occuGroup2 = new QButtonGroup;
-    occuGroup2->addButton(ui->radioButton_13);
-    occuGroup2->addButton(ui->radioButton_14);
-    occuGroup2->addButton(ui->radioButton_15);
-
-    //draw traits
-    session.features = importFeatures("feature.txt");
-    std::vector<Feature> features1 = { session.features.at(0), session.features.at(1), session.features.at(2), session.features.at(3), session.features.at(4) };
-    std::vector<Feature> features2 = { session.features.at(5), session.features.at(6), session.features.at(7), session.features.at(8), session.features.at(9) };
-    ui->checkBox_11->setText(QString::fromStdString(features1.at(0).printFull()));
-    ui->checkBox_12->setText(QString::fromStdString(features1.at(1).printFull()));
-    ui->checkBox_13->setText(QString::fromStdString(features1.at(2).printFull()));
-    ui->checkBox_14->setText(QString::fromStdString(features1.at(3).printFull()));
-    ui->checkBox_15->setText(QString::fromStdString(features1.at(4).printFull()));
-    ui->checkBox_16->setText(QString::fromStdString(features2.at(0).printFull()));
-    ui->checkBox_17->setText(QString::fromStdString(features2.at(1).printFull()));
-    ui->checkBox_18->setText(QString::fromStdString(features2.at(2).printFull()));
-    ui->checkBox_19->setText(QString::fromStdString(features2.at(3).printFull()));
-    ui->checkBox_20->setText(QString::fromStdString(features2.at(4).printFull()));
-
-    //occupation and gender buttons
-    for(int i=-2; i>-5; i--){
-        connect(occuGroup1->button(i), SIGNAL(clicked()), this, SLOT(on_b4Enable2()));
-        connect(genderGroup1->button(i), SIGNAL(clicked()), this, SLOT(on_b4Enable2()));
-        connect(occuGroup2->button(i), SIGNAL(clicked()), this, SLOT(on_b4Enable2()));
-        connect(genderGroup2->button(i), SIGNAL(clicked()), this, SLOT(on_b4Enable2()));
-    }
-    //trait1 buttons
-    connect(ui->checkBox, SIGNAL(clicked()), this, SLOT(on_b4Enable2()));
-    connect(ui->checkBox_2, SIGNAL(clicked()), this, SLOT(on_b4Enable2()));
-    connect(ui->checkBox_3, SIGNAL(clicked()), this, SLOT(on_b4Enable2()));
-    connect(ui->checkBox_4, SIGNAL(clicked()), this, SLOT(on_b4Enable2()));
-    connect(ui->checkBox_5, SIGNAL(clicked()), this, SLOT(on_b4Enable2()));
-    //trait2 buttons
-    connect(ui->checkBox_6, SIGNAL(clicked()), this, SLOT(on_b4Enable2()));
-    connect(ui->checkBox_7, SIGNAL(clicked()), this, SLOT(on_b4Enable2()));
-    connect(ui->checkBox_8, SIGNAL(clicked()), this, SLOT(on_b4Enable2()));
-    connect(ui->checkBox_9, SIGNAL(clicked()), this, SLOT(on_b4Enable2()));
-    connect(ui->checkBox_10, SIGNAL(clicked()), this, SLOT(on_b4Enable2()));
-
-    //feature1 buttons
-    connect(ui->checkBox_11, SIGNAL(clicked()), this, SLOT(on_featureTurn()));
-    connect(ui->checkBox_12, SIGNAL(clicked()), this, SLOT(on_featureTurn()));
-    connect(ui->checkBox_13, SIGNAL(clicked()), this, SLOT(on_featureTurn()));
-    connect(ui->checkBox_14, SIGNAL(clicked()), this, SLOT(on_featureTurn()));
-    connect(ui->checkBox_15, SIGNAL(clicked()), this, SLOT(on_featureTurn()));
-
-    //feature2 buttons
-    connect(ui->checkBox_16, SIGNAL(clicked()), this, SLOT(on_featureTurn()));
-    connect(ui->checkBox_17, SIGNAL(clicked()), this, SLOT(on_featureTurn()));
-    connect(ui->checkBox_18, SIGNAL(clicked()), this, SLOT(on_featureTurn()));
-    connect(ui->checkBox_19, SIGNAL(clicked()), this, SLOT(on_featureTurn()));
-    connect(ui->checkBox_20, SIGNAL(clicked()), this, SLOT(on_featureTurn()));
-
-    //name lineEdits
-    connect(ui->lineEdit, SIGNAL(textChanged(QString)), this, SLOT(on_featureTurn()));
-    connect(ui->lineEdit_2, SIGNAL(textChanged(QString)), this, SLOT(on_featureTurn()));
-
-    //all 'next' buttons
-    connect(this, SIGNAL(page2Ready()), this, SLOT(on_b4Ready()));
-    connect(ui->pushButton_4, SIGNAL(clicked()), this, SLOT(on_page3()));
-    connect(this, SIGNAL(page3Ready()), this, SLOT(on_b5Ready()));
-    connect(ui->pushButton_5, SIGNAL(clicked()), this, SLOT(on_page4()));
-    connect(this, SIGNAL(page4Ready()), this, SLOT(on_b6Ready()));
-    connect(ui->pushButton_6, SIGNAL(clicked()), this, SLOT(on_page5()));
-    connect(this, SIGNAL(page5Ready()), this, SLOT(on_b7Ready()));
-    connect(ui->pushButton_7, SIGNAL(clicked()), this, SLOT(on_page6()));
-    connect(this, SIGNAL(page6Ready()), this, SLOT(on_b8Ready()));
-    connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(on_page7()));
-    connect(this, SIGNAL(page7Ready()), this, SLOT(on_b9Ready()));
-    connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(on_page8()));
-    connect(this, SIGNAL(page8Ready()), this, SLOT(on_b10Ready()));
-    connect(ui->pushButton_10, SIGNAL(clicked()), this, SLOT(on_page9()));
-    connect(this, SIGNAL(page9Ready()), this, SLOT(on_b11Ready()));
-    connect(ui->pushButton_11, SIGNAL(clicked()), this, SLOT(on_page10()));
-    connect(ui->pushButton_12, SIGNAL(clicked()), this, SLOT(on_page11()));
-
+void MainWindow::go_discardRN(){
+    drawFill();
+    std::cout<<std::to_string(session.hand1.size());
+    std::cout<<std::to_string(session.hand2.size());
+    go_selectScene();
 }
 
-void MainWindow::setPage3(){
-    if(ui->radioButton->isChecked()){
-        session.x1.setGender(Female);
-    }else if(ui->radioButton_2->isChecked()){
-        session.x1.setGender(Male);
-    }else if(ui->radioButton_3->isChecked()){
-        session.x1.setGender(Other);
+void MainWindow::go_sceneB(){
+    if(ui->pushButton_28->isEnabled()){
+        ui->pushButton_28->setVisible(false);
+        ui->radioButton_39->setVisible(false);
+        ui->radioButton_40->setVisible(false);
+        ui->radioButton_41->setVisible(false);
+        ui->radioButton_45->setVisible(false);
+        ui->label_92->setText(QString::fromStdString(session.x1.getName()+" has chosen."));
     }
-    if(ui->radioButton_7->isChecked()){
-        session.x2.setGender(Female);
-    }else if(ui->radioButton_8->isChecked()){
-        session.x2.setGender(Male);
-    }else if(ui->radioButton_9->isChecked()){
-        session.x2.setGender(Other);
+    if(ui->pushButton_29->isEnabled()){
+        ui->pushButton_29->setVisible(false);
+        ui->radioButton_42->setVisible(false);
+        ui->radioButton_43->setVisible(false);
+        ui->radioButton_44->setVisible(false);
+        ui->radioButton_46->setVisible(false);
+        ui->label_93->setText(QString::fromStdString(session.x2.getName()+" has chosen."));
     }
-    session.x1.setName(ui->lineEdit->text().toStdString());
-    session.x2.setName(ui->lineEdit_2->text().toStdString());
+    if(!ui->radioButton_39->isVisible()&&!ui->radioButton_42->isVisible()){
+        disconnect(ui->pushButton_28, SIGNAL(clicked()), 0, 0);
+        disconnect(ui->pushButton_29, SIGNAL(clicked()), 0, 0);
+        int temp1 = 5;
+        int temp2 = 5;
+        if(ui->radioButton_39->isChecked()){
+            temp1 = 0;
+            disconnect(ui->radioButton_39, SIGNAL(clicked()), 0, 0);
+        }else if(ui->radioButton_40->isChecked()){
+            temp1 = 1;
+            disconnect(ui->radioButton_40, SIGNAL(clicked()), 0, 0);
+        }else if(ui->radioButton_41->isChecked()){
+            temp1 = 2;
+            disconnect(ui->radioButton_41, SIGNAL(clicked()), 0, 0);
+        }else if(ui->radioButton_45->isChecked()){
+            temp1 = 3;
+            disconnect(ui->radioButton_45, SIGNAL(clicked()), 0, 0);
+        }
 
-    if(ui->radioButton_10->isChecked()){
-        session.occu1 = session.occu.at(0);
-        session.occu.push_back(session.occu.at(1));
-        session.occu.push_back(session.occu.at(2));
-    }else if(ui->radioButton_11->isChecked()){
-        session.occu1 = session.occu.at(1);
-        session.occu.push_back(session.occu.at(0));
-        session.occu.push_back(session.occu.at(2));
-    }else if(ui->radioButton_12->isChecked()){
-        session.occu1 = session.occu.at(2);
-        session.occu.push_back(session.occu.at(0));
-        session.occu.push_back(session.occu.at(1));
-    }
-    session.per.changeOccu(1, session.occu1);
-    session.occu.erase(session.occu.begin(), session.occu.begin()+3);
-    if(ui->radioButton_13->isChecked()){
-        session.occu2 = session.occu.at(0);
-        session.occu.push_back(session.occu.at(1));
-        session.occu.push_back(session.occu.at(2));
-    }else if(ui->radioButton_14->isChecked()){
-        session.occu2 = session.occu.at(1);
-        session.occu.push_back(session.occu.at(0));
-        session.occu.push_back(session.occu.at(2));
-    }else if(ui->radioButton_15->isChecked()){
-        session.occu2 = session.occu.at(2);
-        session.occu.push_back(session.occu.at(0));
-        session.occu.push_back(session.occu.at(1));
-    }
-    session.per.changeOccu(2, session.occu2);
-    session.occu.erase(session.occu.begin(), session.occu.begin()+3);
+        if(ui->radioButton_42->isChecked()){
+            temp2 = 0;
+            disconnect(ui->radioButton_42, SIGNAL(clicked()), 0, 0);
+        }else if(ui->radioButton_43->isChecked()){
+            temp2 = 1;
+            disconnect(ui->radioButton_43, SIGNAL(clicked()), 0, 0);
+        }else if(ui->radioButton_44->isChecked()){
+            temp2 = 2;
+            disconnect(ui->radioButton_44, SIGNAL(clicked()), 0, 0);
+        }else if(ui->radioButton_46->isChecked()){
+            temp2 = 3;
+            disconnect(ui->radioButton_46, SIGNAL(clicked()), 0, 0);
+        }
+        std::cout<<"before PT";
+        //resolve PT for choices
+        bothPT(temp1, temp2);
+        std::cout<<"PT";
 
-    //traits
-    if(ui->checkBox_5->isChecked()){
-        session.traits1.push_back(session.traits.at(4));
-    }
-    if(ui->checkBox_4->isChecked()){
-        session.traits1.push_back(session.traits.at(3));
-    }
-    if(ui->checkBox_3->isChecked()){
-        session.traits1.push_back(session.traits.at(2));
-    }
-    if(ui->checkBox_2->isChecked()){
-        session.traits1.push_back(session.traits.at(1));
-    }
-    if(ui->checkBox->isChecked()){
-        session.traits1.push_back(session.traits.at(0));
-    }
-    session.traits.push_back(session.traits.at(0));
-    session.traits.push_back(session.traits.at(1));
-    session.traits.erase(session.traits.begin(), session.traits.begin()+5);
-    if(ui->checkBox_10->isChecked()){
-        session.traits2.push_back(session.traits.at(4));
-    }
-    if(ui->checkBox_9->isChecked()){
-        session.traits2.push_back(session.traits.at(3));
-    }
-    if(ui->checkBox_8->isChecked()){
-        session.traits2.push_back(session.traits.at(2));
-    }
-    if(ui->checkBox_7->isChecked()){
-        session.traits2.push_back(session.traits.at(1));
-    }
-    if(ui->checkBox_6->isChecked()){
-        session.traits2.push_back(session.traits.at(0));
-    }
-    session.traits.push_back(session.traits.at(0));
-    session.traits.push_back(session.traits.at(1));
-    session.traits.erase(session.traits.begin(), session.traits.begin()+5);
+        //resolve satisfaction
+        int doubleImpact = 0;
+        Choice c1 = scene.getChoices().at(temp1);
+        Choice c2 = scene.getChoices().at(temp2);
+        if (std::find(session.carryOver.begin(), session.carryOver.end(), "DOUBLEIMPACT") != session.carryOver.end()) {
+            int position = std::find(session.carryOver.begin(), session.carryOver.end(), "DOUBLEIMPACT") - session.carryOver.begin();
+            doubleImpact = std::stoi(session.carryOver.at(position+1));
+        }
+        if (doubleImpact == 0||turn==2) {
+            if (c1.getCode().size() > 0) {
+                pageSwitch(c1.getCode());
+                std::cout<<"switch";
 
-    //feature
-    if(ui->checkBox_15->isChecked()){
-        session.fea1.push_back(session.features.at(4));
+                resolveChoice(1, turn, c1.getCode());
+            }else{
+
+
+            }
+        }
+        if (doubleImpact == 0 || turn == 1) {
+            if (c2.getCode().size() > 0) {
+                pageSwitch(c2.getCode());
+                std::cout<<"switch";
+
+                resolveChoice(2, turn, c2.getCode());
+            }else{
+
+            }
+        }
+        if (doubleImpact == 1&&c2.getCode().size()>0) {
+            pageSwitch(c2.getCode());
+            std::cout<<"switch";
+
+            resolveChoice(2, turn, c2.getCode());
+        }else{
+
+        }
+        if (doubleImpact == 2 && c1.getCode().size() > 0) {
+            pageSwitch(c1.getCode());
+            std::cout<<"switch";
+
+            resolveChoice(1, turn, c1.getCode());
+        }else{
+
+        }
+        int position = matchChoice(scene, temp1, temp2, turn);
+        if (position!= -1) {
+            std::vector<std::string> effects = scene.getAddis().at(position).getCode();
+            std::cout << effects.at(0)+"\n";
+            effects.erase(effects.begin());
+            codePlayer cp = resolveCABCD(turn, scene, temp1, temp2, effects);
+            int chooser = cp.chooser;
+            pageSwitch(cp.code);
+            std::cout<<"pass switch";
+            resolveChoice(chooser, turn, cp.code);
+        }
+
+
+        counter++;
+        if(turn==1){
+            turn=2;
+        }else if(turn==2){
+            turn=1;
+        }
+        to_Board();
     }
-    if(ui->checkBox_14->isChecked()){
-        session.fea1.push_back(session.features.at(3));
+}
+
+void MainWindow::go_sceneP(){
+    disconnect(ui->pushButton_28, SIGNAL(clicked()), 0, 0);
+    disconnect(ui->pushButton_29, SIGNAL(clicked()), 0, 0);
+    int temp = 5;
+    int other = 0;
+    if(turn==2){
+        other = 1;
+        if(ui->radioButton_39->isChecked()){
+            temp = 0;
+            disconnect(ui->radioButton_39, SIGNAL(clicked()), 0, 0);
+        }else if(ui->radioButton_40->isChecked()){
+            temp = 1;
+            disconnect(ui->radioButton_40, SIGNAL(clicked()), 0, 0);
+        }else if(ui->radioButton_41->isChecked()){
+            temp = 2;
+            disconnect(ui->radioButton_41, SIGNAL(clicked()), 0, 0);
+        }else if(ui->radioButton_45->isChecked()){
+            temp = 3;
+            disconnect(ui->radioButton_45, SIGNAL(clicked()), 0, 0);
+        }
+    }else if(turn==1){
+        other = 2;
+        if(ui->radioButton_42->isChecked()){
+            temp = 0;
+            disconnect(ui->radioButton_42, SIGNAL(clicked()), 0, 0);
+        }else if(ui->radioButton_43->isChecked()){
+            temp = 1;
+            disconnect(ui->radioButton_43, SIGNAL(clicked()), 0, 0);
+        }else if(ui->radioButton_44->isChecked()){
+            temp = 2;
+            disconnect(ui->radioButton_44, SIGNAL(clicked()), 0, 0);
+        }else if(ui->radioButton_46->isChecked()){
+            temp = 3;
+            disconnect(ui->radioButton_46, SIGNAL(clicked()), 0, 0);
+        }
     }
-    if(ui->checkBox_13->isChecked()){
-        session.fea1.push_back(session.features.at(2));
-    }
-    if(ui->checkBox_12->isChecked()){
-        session.fea1.push_back(session.features.at(1));
-    }
-    if(ui->checkBox_11->isChecked()){
-        session.fea1.push_back(session.features.at(0));
-    }
-    session.features.push_back(session.features.at(0));
-    session.features.push_back(session.features.at(1));
-    session.features.erase(session.features.begin(), session.features.begin()+5);
-    if(ui->checkBox_20->isChecked()){
-        session.fea2.push_back(session.features.at(4));
-    }
-    if(ui->checkBox_19->isChecked()){
-        session.fea2.push_back(session.features.at(3));
-    }
-    if(ui->checkBox_18->isChecked()){
-        session.fea2.push_back(session.features.at(2));
-    }
-    if(ui->checkBox_17->isChecked()){
-        session.fea2.push_back(session.features.at(1));
-    }
-    if(ui->checkBox_16->isChecked()){
-        session.fea2.push_back(session.features.at(0));
-    }
-    session.features.push_back(session.features.at(0));
-    session.features.push_back(session.features.at(1));
-    session.features.erase(session.features.begin(), session.features.begin()+5);
-    session.per.changeFeature(1, session.fea1.at(0));
-    session.per.changeFeature(1, session.fea1.at(1));
-    session.per.changeFeature(1, session.fea1.at(2));
-    session.per.changeFeature(2, session.fea2.at(0));
-    session.per.changeFeature(2, session.fea2.at(1));
-    session.per.changeFeature(2, session.fea2.at(2));
-    session.plot = selectSynopsis();
-    session.d1 = session.plot.getDestinies();
-    session.d2 = session.plot.getDestinies();
-    session.chapters = importChapters("chapters.txt", "chapterEffect.txt");
-    session.sweetS = importScenes("scenesSweet.txt", "sceneEffectSweet.txt");
-    session.seriousS = importScenes("scenesSerious.txt", "sceneEffectSerious.txt");
-    session.dramaS = importScenes("scenesDrama.txt", "sceneEffectDrama.txt");
-    session = drawStarting(session);
-    turn = 1;
-    chapter = 2;
+    Choice c1 = scene.getChoices().at(temp);
+    int double3 = 0;
+        if (std::find(session.carryOver.begin(), session.carryOver.end(), "DoubleThree") != session.carryOver.end()) {
+            int position = std::find(session.carryOver.begin(), session.carryOver.end(), "DoubleThree") - session.carryOver.begin();
+            session.carryOver.erase(session.carryOver.begin() + position);
+            double3 = 1;
+        }
+        int doubleImpact = 0;
+        int doubleImpactB = 0;
+        if (std::find(session.carryOver.begin(), session.carryOver.end(), "DOUBLEIMPACT") != session.carryOver.end()) {
+            int position = std::find(session.carryOver.begin(), session.carryOver.end(), "DOUBLEIMPACT") - session.carryOver.begin();
+            doubleImpact = std::stoi(session.carryOver.at(position + 1));
+        }
+        int doubleB = 0;
+        if (std::find(session.carryOver.begin(), session.carryOver.end(), "DOUBLEIMPACTPT") != session.carryOver.end()) {
+            int position = std::find(session.carryOver.begin(), session.carryOver.end(), "DOUBLEIMPACTPT") - session.carryOver.begin();
+            doubleB = 1;
+        }
+
+        for (int i = 0; i < c1.getDims().size(); i++) {
+            if (c1.getNums().at(i) > 0) {
+                if (turn == 2) {
+                    session.per.change(1, c1.getDims().at(i) * 2, c1.getNums().at(i));
+                    if (doubleB != 0) {
+                        session.per.change(1, c1.getDims().at(i) * 2, c1.getNums().at(i));
+                    }
+                    if (double3 == 1) {
+                        if (c1.getDims().at(i) == 3) {
+
+                            session.per.change(1, c1.getDims().at(i) * 2, c1.getNums().at(i));
+                        }
+                    }
+
+                }
+                else {
+                    session.per.change(2, c1.getDims().at(i) * 2, c1.getNums().at(i));
+                    if (doubleB != 0) {
+                        session.per.change(2, c1.getDims().at(i) * 2, c1.getNums().at(i));
+                    }
+                    if (double3 == 1) {
+                        if (c1.getDims().at(i) == 3) {
+
+                            session.per.change(2, c1.getDims().at(i) * 2, c1.getNums().at(i));
+                        }
+                    }
+
+                }
+
+            }
+            else {
+                if (turn == 2) {
+                    session.per.change(1, c1.getDims().at(i) * 2 + 1, c1.getNums().at(i)*(-1));
+                    if (doubleB != 0) {
+                        session.per.change(1, c1.getDims().at(i) * 2 + 1, c1.getNums().at(i) * (-1));
+                    }
+                    if (double3 == 1) {
+                        if (c1.getDims().at(i) == 3) {
+                            session.per.change(1, c1.getDims().at(i) * 2 + 1, c1.getNums().at(i) * (-1));
+                        }
+                    }
+
+
+                }
+                else {
+                    session.per.change(2, c1.getDims().at(i) * 2 + 1, c1.getNums().at(i)*(-1));
+                    if (doubleB != 0) {
+                        session.per.change(2, c1.getDims().at(i) * 2 + 1, c1.getNums().at(i) * (-1));
+                    }
+                    if (double3 == 1) {
+                        if (c1.getDims().at(i) == 3) {
+                            session.per.change(2, c1.getDims().at(i) * 2 + 1, c1.getNums().at(i) * (-1));
+                        }
+                    }
+
+                }
+
+            }
+        }
+        if (doubleImpact == 0) {
+                resolveChoice(other, turn, c1.getCode());
+        }
+        else if (doubleImpact == other) {
+                resolveChoice(other, turn, c1.getCode());
+        }
+        if(turn==1){
+            turn=2;
+        }else if(turn==2){
+            turn=1;
+        }
+        counter++;
+        to_Board();
 }
 
 void MainWindow::setPageChapter1(int c){
+    ui->pushButton_13->setVisible(true);
+    ui->pushButton_15->setVisible(true);
+    ui->radioButton_4->setVisible(true);
+    ui->radioButton_5->setVisible(true);
+    ui->radioButton_6->setVisible(true);
+    ui->radioButton_19->setVisible(true);
+    ui->radioButton_20->setVisible(true);
+    ui->radioButton_21->setVisible(true);
     ui->label_101->setText(QString::fromStdString(session.chapters.at(c-1).getTitle()));
     ui->label_100->setText(QString::fromStdString(session.chapters.at(c-1).getLine()));
     ui->label_106->setText(QString::fromStdString("A = "+session.chapters.at(c-1).getChoices().at(0).printFull()+"B = " + session.chapters.at(c-1).getChoices().at(1).printFull()+"C = "+session.chapters.at(c-1).getChoices().at(2).printFull()));
@@ -669,6 +616,9 @@ void MainWindow::setPageChapter1(int c){
 }
 
 void MainWindow::setBoard(){
+    drawFill();
+    std::cout<<std::to_string(session.hand1.size());
+    std::cout<<std::to_string(session.hand2.size());
     ui->pushButton_24->setEnabled(true);
     connect(ui->pushButton_24, SIGNAL(clicked()), this, SLOT(to_Board()));
     //character profiles
@@ -716,13 +666,17 @@ void MainWindow::setBoard(){
     //secret buttons
     connect(ui->pushButton_19, SIGNAL(clicked()), this, SLOT(go_Secret1()));
     connect(ui->pushButton_23, SIGNAL(clicked()), this, SLOT(go_Secret2()));
-    //next turn button
-    if(turn==1){
-        ui->pushButton_14->setText("Next Turn (Player 1)");
-        connect(ui->pushButton_14, SIGNAL(clicked()), this, SLOT(go_selectScene1()));
+    //next turn button, can go to next chapter
+    if(counter==session.chapters.at(chapter-1).getLength()){
+        chapter++;
+        ui->pushButton_14->setText("Next Turn (Chapter "+QString::fromStdString(std::to_string(chapter))+")");
+        connect(ui->pushButton_14, SIGNAL(clicked()), this, SLOT(on_page11()));
+    }else if(turn==1){
+        ui->pushButton_14->setText("Next Turn ("+QString::fromStdString(session.x1.getName())+")");
+        connect(ui->pushButton_14, SIGNAL(clicked()), this, SLOT(go_selectScene()));
     }else{
-        ui->pushButton_14->setText("Next Turn (Player 2)");
-        connect(ui->pushButton_14, SIGNAL(clicked()), this, SLOT(go_selectScene2()));
+        ui->pushButton_14->setText("Next Turn ("+QString::fromStdString(session.x2.getName())+")");
+        connect(ui->pushButton_14, SIGNAL(clicked()), this, SLOT(go_selectScene()));
     }
 
 }
@@ -736,6 +690,14 @@ void MainWindow::setPageDestiny(int c){
     ui->radioButton_30->setVisible(false);
     ui->radioButton_31->setVisible(false);
     ui->radioButton_32->setVisible(false);
+
+    ui->radioButton_35->setVisible(false);
+    ui->radioButton_34->setVisible(false);
+    ui->radioButton_37->setVisible(false);
+    ui->radioButton_38->setVisible(false);
+    ui->radioButton_33->setVisible(false);
+    ui->radioButton_36->setVisible(false);
+
     if(c==1){
         ui->label_73->setText(QString::fromStdString(session.x1.getName()));
         for(int i=0; i<session.d1.size(); i++){
@@ -797,30 +759,344 @@ void MainWindow::setPageSecret(int c){
     }
 }
 
-void MainWindow::setSceneSelect(int c){
+void MainWindow::setSceneSelect(){
+    ui->radioButton_16->setVisible(false);
+    ui->radioButton_17->setVisible(false);
+    ui->radioButton_18->setVisible(false);
+    ui->radioButton_22->setVisible(false);
+    ui->radioButton_23->setVisible(false);
+    ui->radioButton_24->setVisible(false);
+    ui->radioButton_25->setVisible(false);
+    ui->radioButton_26->setVisible(false);
     ui->pushButton_27->setDisabled(true);
-    if(c==1){
+    ui->label_87->clear();
+    ui->toolButton->setDisabled(true);
+    ui->toolButton_2->setEnabled(true);
+
+    if(turn==1){
         ui->label_84->setText(QString::fromStdString(session.x1.getName()));
-        for(int i=0; i<session.hand1.size(); i++){
-            ui->label_86->setText(ui->label_86->text()+QString::fromStdString(session.hand1.at(i).printFull()+"\n"));
-        }
+        ui->label_87->setText(QString::fromStdString(session.hand1.at(0).printFull()));
     }else{
         ui->label_84->setText(QString::fromStdString(session.x2.getName()));
-        for(int i=0; i<session.hand2.size(); i++){
-            ui->label_86->setText(ui->label_86->text()+QString::fromStdString(session.hand2.at(i).printFull()+"\n"));
-        }
+        ui->label_87->setText(QString::fromStdString(session.hand2.at(0).printFull()));
     }
-    connect(ui->radioButton_16, SIGNAL(clicked()), this, SLOT(on_selectReady()));
-    connect(ui->radioButton_17, SIGNAL(clicked()), this, SLOT(on_selectReady()));
-    connect(ui->radioButton_18, SIGNAL(clicked()), this, SLOT(on_selectReady()));
-    connect(ui->radioButton_22, SIGNAL(clicked()), this, SLOT(on_selectReady()));
-    connect(ui->radioButton_23, SIGNAL(clicked()), this, SLOT(on_selectReady()));
-    connect(ui->radioButton_24, SIGNAL(clicked()), this, SLOT(on_selectReady()));
-    connect(ui->radioButton_25, SIGNAL(clicked()), this, SLOT(on_selectReady()));
-    connect(ui->radioButton_26, SIGNAL(clicked()), this, SLOT(on_selectReady()));
+
+    switch(session.hand1.size()){
+        case 8:
+        ui->radioButton_26->setVisible(true);
+        connect(ui->pushButton_26, SIGNAL(clicked()), this, SLOT(on_selectReady()));
+    case 7:
+        ui->radioButton_25->setVisible(true);
+        connect(ui->radioButton_25, SIGNAL(clicked()), this, SLOT(on_selectReady()));
+    case 6:
+        ui->radioButton_24->setVisible(true);
+        connect(ui->radioButton_24, SIGNAL(clicked()), this, SLOT(on_selectReady()));
+    case 5:
+        ui->radioButton_23->setVisible(true);
+        connect(ui->radioButton_23, SIGNAL(clicked()), this, SLOT(on_selectReady()));
+    case 4:
+        ui->radioButton_22->setVisible(true);
+        connect(ui->radioButton_22, SIGNAL(clicked()), this, SLOT(on_selectReady()));
+    case 3:
+        ui->radioButton_18->setVisible(true);
+        connect(ui->radioButton_18, SIGNAL(clicked()), this, SLOT(on_selectReady()));
+    case 2:
+        ui->radioButton_17->setVisible(true);
+        connect(ui->radioButton_17, SIGNAL(clicked()), this, SLOT(on_selectReady()));
+    case 1:
+        ui->radioButton_16->setVisible(true);
+        connect(ui->radioButton_16, SIGNAL(clicked()), this, SLOT(on_selectReady()));
+    }
+    connect(ui->toolButton, SIGNAL(clicked()), this, SLOT(go_prevScene()));
+    connect(ui->toolButton_2, SIGNAL(clicked()), this, SLOT(go_nextScene()));
     connect(ui->pushButton_27, SIGNAL(clicked()), this, SLOT(go_displayScene()));
 }
 
+void MainWindow::setSceneDisplay(){
+    //disconnect buttons from selectScene
+    disconnect(ui->radioButton_16, SIGNAL(clicked()), 0, 0);
+    disconnect(ui->radioButton_17, SIGNAL(clicked()), 0, 0);
+    disconnect(ui->radioButton_18, SIGNAL(clicked()), 0, 0);
+    disconnect(ui->radioButton_22, SIGNAL(clicked()), 0, 0);
+    disconnect(ui->radioButton_23, SIGNAL(clicked()), 0, 0);
+    disconnect(ui->radioButton_24, SIGNAL(clicked()), 0, 0);
+    disconnect(ui->radioButton_25, SIGNAL(clicked()), 0, 0);
+    disconnect(ui->radioButton_26, SIGNAL(clicked()), 0, 0);
+
+    //clear choice and add
+    ui->label_86->clear();
+    ui->label_118->clear();
+    ui->radioButton_39->setVisible(true);
+    ui->radioButton_40->setVisible(true);
+    ui->radioButton_41->setVisible(true);
+    ui->radioButton_45->setVisible(true);
+    ui->radioButton_42->setVisible(true);
+    ui->radioButton_43->setVisible(true);
+    ui->radioButton_44->setVisible(true);
+    ui->radioButton_46->setVisible(true);
+    ui->pushButton_28->setVisible(true);
+    ui->pushButton_29->setVisible(true);
+    ui->label_92->setVisible(true);
+    ui->label_93->setVisible(true);
+
+    //additional effects
+    ui->label_120->setVisible(true);
+    ui->line_33->setVisible(true);
+    ui->line_34->setVisible(true);
+
+    ui->label_117->setText(QString::fromStdString(scene.getTitle()));
+    ui->label_116->setText(QString::fromStdString(scene.getLine()));
+
+    std::vector<std::string> alphabet = {"A", "B", "C", "D"};
+    if(scene.getWho()=='R'){
+        ui->label_115->setText("REACTION");
+        for(int i=0; i<scene.getChoices().size(); i++){
+            ui->label_86->setText(ui->label_86->text()+QString::fromStdString(scene.getChoices().at(i).printFull()));
+        }
+        ui->label_120->setText("MINOR SCENE");
+        ui->label_118->setText("Does not count towards CHAPTER LENGTH.\nYou may discard this SCENE face up at the beginning of your turn and draw a new one.");
+        ui->radioButton_39->setVisible(false);
+        ui->radioButton_40->setVisible(false);
+        ui->radioButton_41->setVisible(false);
+        ui->radioButton_45->setVisible(false);
+        ui->radioButton_42->setVisible(false);
+        ui->radioButton_43->setVisible(false);
+        ui->radioButton_44->setVisible(false);
+        ui->radioButton_46->setVisible(false);
+        if(turn==1){
+            ui->label_92->setFixedHeight(61);
+            ui->label_92->setText(QString::fromStdString(session.x1.getName())+", discard the reaction as a minor scene.");
+            ui->pushButton_28->setDisabled(false);
+            ui->pushButton_29->setDisabled(true);
+            ui->pushButton_29->setVisible(false);
+            ui->label_93->setVisible(false);
+            connect(ui->pushButton_28, SIGNAL(clicked()), this, SLOT(go_discardRN()));
+        }else if(turn==2){
+            ui->label_93->setFixedHeight(61);
+            ui->label_93->setText(QString::fromStdString(session.x2.getName())+", discard the reaction as a minor scene.");
+            ui->pushButton_28->setDisabled(true);
+            ui->pushButton_29->setDisabled(false);
+            ui->pushButton_28->setVisible(false);
+            ui->label_92->setVisible(false);
+            connect(ui->pushButton_29, SIGNAL(clicked()), this, SLOT(go_discardRN()));
+        }
+    }else if(scene.getWho()=='N'){
+        ui->label_115->setText("REACTION");
+        for(int i=0; i<scene.getChoices().size(); i++){
+            ui->label_86->setText(ui->label_86->text()+QString::fromStdString(scene.getChoices().at(i).printFull()));
+        }
+        ui->label_120->setText("MINOR SCENE");
+        ui->label_118->setText("Does not count towards CHAPTER LENGTH.\nYou may discard this SCENE face up at the beginning of your turn and draw a new one.");
+        ui->radioButton_39->setVisible(false);
+        ui->radioButton_40->setVisible(false);
+        ui->radioButton_41->setVisible(false);
+        ui->radioButton_45->setVisible(false);
+        ui->radioButton_42->setVisible(false);
+        ui->radioButton_43->setVisible(false);
+        ui->radioButton_44->setVisible(false);
+        ui->radioButton_46->setVisible(false);
+        if(turn==1){
+            ui->label_92->setFixedHeight(61);
+            ui->label_92->setText(QString::fromStdString(session.x1.getName())+", discard this reaction as a minor scene.");
+            ui->pushButton_28->setDisabled(false);
+            ui->pushButton_29->setDisabled(true);
+            ui->pushButton_29->setVisible(false);
+            ui->label_93->setVisible(false);
+            ui->pushButton_28->setText("OK");
+            connect(ui->pushButton_28, SIGNAL(clicked()), this, SLOT(go_discardRN()));
+        }else if(turn==2){
+            ui->label_93->setFixedHeight(61);
+            ui->label_93->setText(QString::fromStdString(session.x1.getName())+", discard this reaction as a minor scene.");
+            ui->pushButton_28->setDisabled(true);
+            ui->pushButton_29->setDisabled(false);
+            ui->pushButton_28->setVisible(false);
+            ui->label_92->setVisible(false);
+            ui->pushButton_29->setText("OK");
+            connect(ui->pushButton_29, SIGNAL(clicked()), this, SLOT(go_discardRN()));
+        }
+    }
+
+    if(scene.getWho()=='B'){
+        ui->pushButton_28->setDisabled(true);
+        ui->pushButton_29->setDisabled(true);
+        ui->label_115->setText("BOTH CHOOSE");
+        if(scene.getExplain()!="N"){
+            ui->label_86->setText(QString::fromStdString(scene.getExplain()+"\n"));
+        }
+        for(int i=0; i<scene.getChoices().size(); i++){
+            ui->label_86->setText(ui->label_86->text()+QString::fromStdString(alphabet.at(i)+" = "+scene.getChoices().at(i).printFull()));
+        }
+        for(int i=0; i<scene.getAddis().size(); i++){
+            ui->label_118->setText(ui->label_118->text()+QString::fromStdString(scene.getAddis().at(i).getFull()+"\n"));
+        }
+        ui->label_92->setText(QString::fromStdString(session.x1.getName()));
+        ui->label_93->setText(QString::fromStdString(session.x2.getName()));
+        switch (scene.getChoices().size()){
+            case 2:
+            ui->radioButton_41->setVisible(false);
+            ui->radioButton_44->setVisible(false);
+        case 3:
+            ui->radioButton_45->setVisible(false);
+            ui->radioButton_46->setVisible(false);
+        }
+        //choices
+        connect(ui->radioButton_39, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+        connect(ui->radioButton_40, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+        connect(ui->radioButton_41, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+        connect(ui->radioButton_45, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+        connect(ui->radioButton_42, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+        connect(ui->radioButton_43, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+        connect(ui->radioButton_44, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+        connect(ui->radioButton_46, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+
+        //submit
+        connect(ui->pushButton_28, SIGNAL(clicked()), this, SLOT(go_sceneB()));
+        connect(ui->pushButton_29, SIGNAL(clicked()), this, SLOT(go_sceneB()));
+
+    }else if(scene.getWho()=='P'){
+
+
+        ui->label_115->setText("PARTNER CHOOSES");
+        if(scene.getExplain()!="N"){
+            ui->label_86->setText(QString::fromStdString(scene.getExplain()+"\n"));
+        }
+        for(int i=0; i<scene.getChoices().size(); i++){
+            ui->label_86->setText(ui->label_86->text()+QString::fromStdString(alphabet.at(i)+" = "+scene.getChoices().at(i).printFull()));
+        }
+        //additional effects invisible
+        ui->label_120->setVisible(false);
+        ui->line_33->setVisible(false);
+        ui->line_34->setVisible(false);
+        //choices
+        connect(ui->radioButton_39, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+        connect(ui->radioButton_40, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+        connect(ui->radioButton_41, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+        connect(ui->radioButton_45, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+        connect(ui->radioButton_42, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+        connect(ui->radioButton_43, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+        connect(ui->radioButton_44, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+        connect(ui->radioButton_46, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+
+
+        if(turn==1){
+            ui->label_92->setVisible(false);
+            ui->label_93->setText(QString::fromStdString(session.x2.getName()));
+            ui->pushButton_28->setVisible(false);
+            ui->pushButton_29->setDisabled(true);
+            ui->radioButton_39->setVisible(false);
+            ui->radioButton_40->setVisible(false);
+            ui->radioButton_41->setVisible(false);
+            ui->radioButton_45->setVisible(false);
+            switch (scene.getChoices().size()){
+                case 2:
+                ui->radioButton_44->setVisible(false);
+            case 3:
+                ui->radioButton_46->setVisible(false);
+            }
+            connect(ui->radioButton_42, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+            connect(ui->radioButton_43, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+            connect(ui->radioButton_44, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+            connect(ui->radioButton_46, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+            connect(ui->pushButton_29, SIGNAL(clicked()), this, SLOT(go_sceneP()));
+        }else{
+            ui->label_92->setText(QString::fromStdString(session.x1.getName()));
+            ui->label_93->setVisible(false);
+            ui->pushButton_28->setDisabled(true);
+            ui->pushButton_29->setVisible(false);
+            ui->radioButton_42->setVisible(false);
+            ui->radioButton_43->setVisible(false);
+            ui->radioButton_44->setVisible(false);
+            ui->radioButton_46->setVisible(false);
+            switch (scene.getChoices().size()){
+                case 2:
+                ui->radioButton_41->setVisible(false);
+            case 3:
+                ui->radioButton_45->setVisible(false);
+            }
+            connect(ui->radioButton_39, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+            connect(ui->radioButton_40, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+            connect(ui->radioButton_41, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+            connect(ui->radioButton_45, SIGNAL(clicked()), this, SLOT(on_sceneReady()));
+            connect(ui->pushButton_28, SIGNAL(clicked()), this, SLOT(go_sceneP()));
+
+        }
+    }else if(scene.getWho()=='S'){
+        ui->label_115->setText("SITUATION");
+        for(int i=0; i<scene.getChoices().size(); i++){
+            ui->label_86->setText(ui->label_86->text()+QString::fromStdString(scene.getChoices().at(i).printFull()));
+        }
+        ui->label_120->setVisible(false);
+        ui->line_33->setVisible(false);
+        ui->line_34->setVisible(false);
+
+    }else if(scene.getWho()=='E'){
+        ui->label_115->setText("SPECIAL EFFECT");
+        for(int i=0; i<scene.getChoices().size(); i++){
+            ui->label_86->setText(ui->label_86->text()+QString::fromStdString(scene.getChoices().at(i).printFull()));
+        }
+        ui->label_120->setVisible(false);
+        ui->line_33->setVisible(false);
+        ui->line_34->setVisible(false);
+
+    }else if(scene.getWho()=='T'||scene.getWho()=='C'){
+        ui->label_115->setText("SECRET");
+        if(scene.getExplain()!="N"){
+            ui->label_86->setText(QString::fromStdString(scene.getExplain()+scene.getAddis().at(0).getFull()));
+        }
+        if(scene.getWho()=='T'){
+            ui->label_86->setText(ui->label_86->text()+QString::fromStdString("If revealed:\n"+scene.getAddis().at(1).getFull()));
+        }else if(scene.getWho()=='C'){
+            ui->label_86->setText(ui->label_86->text()+QString::fromStdString("If revealed, PARTNER CHOOSES:\n"));
+            for(int i=0; i<scene.getChoices().size(); i++){
+                ui->label_86->setText(ui->label_86->text()+QString::fromStdString(scene.getChoices().at(i).printFull()));
+            }
+
+        }
+        ui->label_120->setVisible(false);
+        ui->line_33->setVisible(false);
+        ui->line_34->setVisible(false);
+        //invisible option buttons for both players
+        ui->radioButton_39->setVisible(false);
+        ui->radioButton_40->setVisible(false);
+        ui->radioButton_41->setVisible(false);
+        ui->radioButton_45->setVisible(false);
+        ui->radioButton_42->setVisible(false);
+        ui->radioButton_43->setVisible(false);
+        ui->radioButton_44->setVisible(false);
+        ui->radioButton_46->setVisible(false);
+        if(turn==2){
+            ui->pushButton_28->setVisible(false);
+            session.secret2.push_back(scene);
+            ui->pushButton_29->setText("OK");
+            ui->label_92->setText(QString::fromStdString(session.x1.getName()));
+            ui->label_93->setVisible(false);
+
+            connect(ui->pushButton_29, SIGNAL(clicked()), this, SLOT(to_Board()));
+        }else{
+            ui->pushButton_29->setVisible(false);
+            session.secret1.push_back(scene);
+            ui->pushButton_28->setText("OK");
+            ui->label_92->setVisible(false);
+            ui->label_93->setText(QString::fromStdString(session.x2.getName()));
+            connect(ui->pushButton_28, SIGNAL(clicked()), this, SLOT(to_Board()));
+        }
+
+
+
+    }else if(scene.getWho()=='V'){
+        //can discard or reveal
+        ui->label_115->setText("REVEAL SECRET");
+        ui->label_86->setText("Reveal one of your PARTNER'S SECRETS in play. All consequences of the SECRET are resolved immediately.");
+        ui->label_120->setText("MINOR SCENE");
+        ui->label_118->setText("Does not count towards CHAPTER LENGTH.\nYou may discard this SCENE face up at the beginning of your turn and draw a new one.");
+        ui->pushButton_28->setText("Reveal");
+        ui->pushButton_29->setText("Discard");
+        //todo: reveal secret connect button_28
+        connect(ui->pushButton_29, SIGNAL(clicked()), this, SLOT(go_discardRN()));
+    }
+
+
+}
 
 
 MainWindow::~MainWindow()
