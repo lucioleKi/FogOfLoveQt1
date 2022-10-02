@@ -1,5 +1,7 @@
 # FogOfLoveQt1
-A GUI version of the two-player board game Fog of Love made using QT. Still in progress.
+A GUI version of the two-player board game Fog of Love made using QT. Completed for now, but not all features are implemented.
+
+Here is my demo video of a testing playthrough: https://youtu.be/XEzVSNn-klg.
 
 I made a complete console version of Fog of Love here: https://github.com/lucioleKi/FogOfLove. Check it out!
 
@@ -21,4 +23,14 @@ Next step: Main game loop for regular scenes first. The plan is to make a 3-page
 
 9/8/2022
 
-This project is currently on hiatus right now. I implemented most personality-token and satisfaction related events. It's just I found reimplementing all other events being repetitive and tiring. The debugger is also not to my liking. Whenever I try to debug, it felt too time-consuming and unfruitful. I want to continue learning more than anything else. Maybe one day I will learn enough about game development so that I can come back here and finish this project.
+Implemented most personality-token and satisfaction related events. Fixed bugs at scene selection.
+
+10/2/2022
+
+Implemented resolution. The game is now completely playable, but missing certain features. Features not implemented include: reveal secret, situation, destiny, special effects. I uploaded my testing playthrough video onto youtube. 
+
+As I explained in the video, I choose not to refactor those features into this version because the process will be repetitive. I would rather use this time for active learning. Another reason is that I now realize how many things I've done wrong when making Fog of Love. Fixing them all for this project is less efficient than just starting the next one. As I've said before, I am not implementing those games for anything else but to learn about game development as much as possible. 
+
+Qt is a versatile GUI platform. I learned a lot about its signal and slot system. It can cause irritating bugs, but I would recommend it nevertheless for C++ GUI. 
+
+Cheers and off to my next jouney!
