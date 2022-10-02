@@ -42,7 +42,7 @@ void MainWindow::drawFill(){
 
 void MainWindow::CO(int player){
     pages.erase(pages.begin());
-    codeT.erase(codeT.begin());
+
     if(player==1){
         ui->stackedWidget->setCurrentIndex(5);
         ui->label_25->setText("CHANGE OCCUPATION");
@@ -57,17 +57,11 @@ void MainWindow::CO(int player){
 
         if(pages.size()==0){
             ui->pushButton_8->setText("Back to Board");
-            counter++;
-            if(turn==1){
-                turn=2;
-            }else{
-                turn=1;
-            }
             connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(to_Board()));
         }else if(pages.at(0)==5){
             ui->pushButton_8->setText("Next ("+QString::fromStdString(session.x2.getName())+")");
             //change the slot
-            connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(to_Board()));
+            connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(go_page()));
         }
     }else{
         ui->stackedWidget->setCurrentIndex(6);
@@ -81,15 +75,20 @@ void MainWindow::CO(int player){
         occuGroup2->addButton(ui->radioButton_14);
         occuGroup2->addButton(ui->radioButton_15);
         ui->pushButton_9->setText("Back to Board");
-        counter++;
-        if(turn==1){
-            turn=2;
-        }else{
-            turn=1;
-        }
-        connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(to_Board()));
+        connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(go_page()));
 
     }
 
 
 }
+
+
+void MainWindow::SWO() {
+    Occupation temp = session.occu1;
+    session = CancelEffect(session, 1, session.occu1.getDim(), session.occu1.getDim());
+    session = CancelEffect(session, 2, session.occu2.getDim(), session.occu2.getNum());
+    session.occu1 = session.occu2;
+    session.occu2 = temp;
+    session = ApplyEffect(session, 1, session.occu1.getDim(), session.occu1.getDim());
+    session = ApplyEffect(session, 2, session.occu2.getDim(), session.occu2.getNum());
+};

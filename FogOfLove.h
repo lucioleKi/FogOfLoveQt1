@@ -19,6 +19,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     void setPage2();
     void setPage3();
+    void resetCharButtons();
+    void resetChapterButtons();
     void setPageChapter1(int c);
     void setBoard();
     //page 12
@@ -28,8 +30,12 @@ public:
     void setSceneSelect();
     void resolveEffectsCQt(int choice, int player);
     void setSceneDisplay();
+    void resetDisplayButton();
+    //for revealed secret only
+    void setSecretDisplay();
     void pageSwitch(std::vector<std::string> code);
 
+    void setSituation();
     void drawFill();
     //destiny page
     void RI(int player, std::string destiny);
@@ -40,7 +46,9 @@ public:
     void RR(int player);
     //occupation page
     void CO(int player);
-
+    //no switch
+    void SWO();
+    void changeIn(int player, int d);
     ~MainWindow();
 signals:
     void page2Ready();
@@ -118,7 +126,7 @@ private slots:
     void changeDestiny();
     void destinyEffectEnd();
     void on_RK();
-    void on_SI();
+
     //enable submit for both choose
     void on_sceneReady();
     //type R and N
@@ -129,8 +137,18 @@ private slots:
     void resolveChoice(int chooser, int player, std::vector<std::string> code);
     //type P
     void go_sceneP();
+    //type V
+    void go_rSecret();
     //to specific page
     void go_page();
+
+    void go_resolution();
+    void go_finalD1();
+    void go_finalD2();
+    void go_displayD();
+    void go_displayT();
+    void go_displayFinal();
+    void return_resolution();
 };
 
 

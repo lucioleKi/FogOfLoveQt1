@@ -158,6 +158,7 @@ void MainWindow::on_b11Ready(){
 }
 
 void MainWindow::on_page3(){
+
    ui->stackedWidget->setCurrentIndex(2);
 }
 
@@ -187,6 +188,7 @@ void MainWindow::on_page9(){
 
 void MainWindow::on_page10(){
     setPage3();
+    resetCharButtons();
     ui->stackedWidget->setCurrentIndex(9);
 }
 
@@ -469,4 +471,98 @@ void MainWindow::setPage3(){
     turn = 1;
     chapter = 1;
     counter = 0;
+}
+
+void MainWindow::resetCharButtons(){
+    //reset gender buttons
+    QButtonGroup* genderGroup1 = new QButtonGroup;
+    genderGroup1->addButton(ui->radioButton);
+    genderGroup1->addButton(ui->radioButton_2);
+    genderGroup1->addButton(ui->radioButton_3);
+    genderGroup1->setExclusive(false);
+    if(ui->radioButton->isChecked()){
+        ui->radioButton->setChecked(false);
+    }else if(ui->radioButton_2->isChecked()){
+        ui->radioButton_2->setChecked(false);
+    }else if(ui->radioButton_3->isChecked()){
+        ui->radioButton_3->setChecked(false);
+    }
+    genderGroup1->setExclusive(true);
+    disconnect(ui->pushButton_4, SIGNAL(clicked()), 0, 0);
+
+    QButtonGroup* genderGroup2 = new QButtonGroup;
+    genderGroup2->addButton(ui->radioButton_7);
+    genderGroup2->addButton(ui->radioButton_8);
+    genderGroup2->addButton(ui->radioButton_9);
+    genderGroup2->setExclusive(false);
+    if(ui->radioButton_7->isChecked()){
+        ui->radioButton_7->setChecked(false);
+    }else if(ui->radioButton_8->isChecked()){
+        ui->radioButton_8->setChecked(false);
+    }else if(ui->radioButton_9->isChecked()){
+        ui->radioButton_9->setChecked(false);
+    }
+    genderGroup2->setExclusive(true);
+    disconnect(ui->pushButton_5, SIGNAL(clicked()), 0, 0);
+
+    //reset trait buttons
+    ui->checkBox->setChecked(false);
+    ui->checkBox_2->setChecked(false);
+    ui->checkBox_3->setChecked(false);
+    ui->checkBox_4->setChecked(false);
+    ui->checkBox_5->setChecked(false);
+    disconnect(ui->pushButton_6, SIGNAL(clicked()), 0, 0);
+
+    ui->checkBox_6->setChecked(false);
+    ui->checkBox_7->setChecked(false);
+    ui->checkBox_8->setChecked(false);
+    ui->checkBox_9->setChecked(false);
+    ui->checkBox_10->setChecked(false);
+    disconnect(ui->pushButton_6, SIGNAL(clicked()), 0, 0);
+
+    //reset occu buttons
+    QButtonGroup* occuGroup1 = new QButtonGroup;
+    occuGroup1->addButton(ui->radioButton_10);
+    occuGroup1->addButton(ui->radioButton_11);
+    occuGroup1->addButton(ui->radioButton_12);
+    occuGroup1->setExclusive(false);
+    if(ui->radioButton_10->isChecked()){
+        ui->radioButton_10->setChecked(false);
+    }else if(ui->radioButton_11->isChecked()){
+        ui->radioButton_11->setChecked(false);
+    }else if(ui->radioButton_12->isChecked()){
+        ui->radioButton_12->setChecked(false);
+    }
+    occuGroup1->setExclusive(true);
+    disconnect(ui->pushButton_8, SIGNAL(clicked()), 0, 0);
+
+    QButtonGroup* occuGroup2 = new QButtonGroup;
+    occuGroup2->addButton(ui->radioButton_13);
+    occuGroup2->addButton(ui->radioButton_14);
+    occuGroup2->addButton(ui->radioButton_15);
+    occuGroup2->setExclusive(false);
+    if(ui->radioButton_13->isChecked()){
+        ui->radioButton_13->setChecked(false);
+    }else if(ui->radioButton_14->isChecked()){
+        ui->radioButton_14->setChecked(false);
+    }else if(ui->radioButton_15->isChecked()){
+        ui->radioButton_15->setChecked(false);
+    }
+    occuGroup2->setExclusive(true);
+    disconnect(ui->pushButton_9, SIGNAL(clicked()), 0, 0);
+
+    //reset feature buttons
+    ui->checkBox_11->setChecked(false);
+    ui->checkBox_12->setChecked(false);
+    ui->checkBox_13->setChecked(false);
+    ui->checkBox_14->setChecked(false);
+    ui->checkBox_15->setChecked(false);
+    ui->checkBox_16->setChecked(false);
+    ui->checkBox_17->setChecked(false);
+    ui->checkBox_18->setChecked(false);
+    ui->checkBox_19->setChecked(false);
+    ui->checkBox_20->setChecked(false);
+    disconnect(ui->pushButton_10, SIGNAL(clicked()), 0, 0);
+    disconnect(ui->pushButton_11, SIGNAL(clicked()), 0, 0);
+
 }

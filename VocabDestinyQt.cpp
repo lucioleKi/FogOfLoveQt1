@@ -5,6 +5,7 @@
 
 void MainWindow::on_player1Destiny(){
     int temp1 = 4;
+    disconnect(ui->pushButton_24, SIGNAL(clicked()), 0, 0);
     if(ui->radioButton_4->isChecked()){
         temp1 = 0;
     }else if(ui->radioButton_5->isChecked()){
@@ -14,13 +15,13 @@ void MainWindow::on_player1Destiny(){
     }
 
     resolveEffectsCQt(temp1, 1);
-
-    ui->stackedWidget->setCurrentIndex(12);
 }
 
 
 void MainWindow::on_player2Destiny(){
+
     changeDestiny();
+
     disconnect(ui->pushButton_24, SIGNAL(clicked()), 0, 0);
     int temp2 = 4;
     if(ui->radioButton_19->isChecked()){
@@ -30,8 +31,11 @@ void MainWindow::on_player2Destiny(){
     }else if(ui->radioButton_21->isChecked()){
         temp2 = 2;
     }
+
     resolveEffectsCQt(temp2, 2);
+    ui->page_13_destiny->update();
     ui->stackedWidget->setCurrentIndex(12);
+
 }
 
 void MainWindow::resolveEffectsCQt(int choice, int player){
@@ -176,49 +180,74 @@ void MainWindow::changeDestiny(){
     choiceGroup1->addButton(ui->radioButton_29);
     choiceGroup1->addButton(ui->radioButton_28);
     choiceGroup1->addButton(ui->radioButton_27);
+    choiceGroup1->setExclusive(false);
+
+    QButtonGroup* choiceGroup2 = new QButtonGroup;
+    choiceGroup2->addButton(ui->radioButton_35);
+    choiceGroup2->addButton(ui->radioButton_34);
+    choiceGroup2->addButton(ui->radioButton_37);
+    choiceGroup2->addButton(ui->radioButton_38);
+    choiceGroup2->addButton(ui->radioButton_33);
+    choiceGroup2->addButton(ui->radioButton_36);
+    choiceGroup2->setExclusive(false);
+
     if(ui->label_73->text().toStdString()==session.x1.getName()){
         int index = 0;
         std::vector<int> hand;
+        std::vector<int> hand1;
         for (int i = 0; i < session.d1.size(); i++) {
             if (session.d1.at(i).getIn()) {
                 hand.push_back(i);
                 index++;
+            }else{
+                hand1.push_back(i);
             }
         }
         if(ui->radioButton_32->isChecked()){
-            ui->radioButton_32->setAutoExclusive(false);
             ui->radioButton_32->setChecked(false);
-            ui->radioButton_32->setAutoExclusive(true);
             session.d1.at(hand.at(5)).changeIn();
         }else if(ui->radioButton_31->isChecked()){
-            ui->radioButton_31->setAutoExclusive(false);
             ui->radioButton_31->setChecked(false);
-            ui->radioButton_31->setAutoExclusive(true);
             session.d1.at(hand.at(4)).changeIn();
         }else if(ui->radioButton_30->isChecked()){
-            ui->radioButton_30->setAutoExclusive(false);
             ui->radioButton_30->setChecked(false);
-            ui->radioButton_30->setAutoExclusive(true);
             session.d1.at(hand.at(3)).changeIn();
         }else if(ui->radioButton_29->isChecked()){
-            ui->radioButton_29->setAutoExclusive(false);
             ui->radioButton_29->setChecked(false);
-            ui->radioButton_29->setAutoExclusive(true);
             session.d1.at(hand.at(2)).changeIn();
         }else if(ui->radioButton_28->isChecked()){
-            ui->radioButton_28->setAutoExclusive(false);
             ui->radioButton_28->setChecked(false);
-            ui->radioButton_28->setAutoExclusive(true);
             session.d1.at(hand.at(1)).changeIn();
         }else if(ui->radioButton_27->isChecked()){
-            ui->radioButton_27->setAutoExclusive(false);
             ui->radioButton_27->setChecked(false);
-            ui->radioButton_27->setAutoExclusive(true);
             session.d1.at(hand.at(0)).changeIn();
         }
+
+        if(ui->radioButton_36->isChecked()){
+            ui->radioButton_36->setChecked(false);
+            session.d1.at(hand1.at(5)).changeIn();
+        }else if(ui->radioButton_33->isChecked()){
+            ui->radioButton_33->setChecked(false);
+            session.d1.at(hand1.at(4)).changeIn();
+        }else if(ui->radioButton_38->isChecked()){
+            ui->radioButton_38->setChecked(false);
+            session.d1.at(hand1.at(3)).changeIn();
+        }else if(ui->radioButton_37->isChecked()){
+            ui->radioButton_37->setChecked(false);
+            session.d1.at(hand1.at(2)).changeIn();
+        }else if(ui->radioButton_34->isChecked()){
+            ui->radioButton_34->setChecked(false);
+            session.d1.at(hand1.at(1)).changeIn();
+        }else if(ui->radioButton_33->isChecked()){
+            ui->radioButton_33->setChecked(false);
+            session.d1.at(hand1.at(0)).changeIn();
+        }
+
+
     }else if(ui->label_73->text().toStdString()==session.x2.getName()){
         int index = 0;
         std::vector<int> hand;
+        std::vector<int> hand1;
         for (int i = 0; i < session.d2.size(); i++) {
             if (session.d2.at(i).getIn()) {
                 hand.push_back(i);
@@ -226,37 +255,51 @@ void MainWindow::changeDestiny(){
             }
         }
         if(ui->radioButton_32->isChecked()){
-            ui->radioButton_32->setAutoExclusive(false);
             ui->radioButton_32->setChecked(false);
-            ui->radioButton_32->setAutoExclusive(true);
             session.d2.at(hand.at(5)).changeIn();
         }else if(ui->radioButton_31->isChecked()){
-            ui->radioButton_31->setAutoExclusive(false);
             ui->radioButton_31->setChecked(false);
-            ui->radioButton_31->setAutoExclusive(true);
             session.d2.at(hand.at(4)).changeIn();
         }else if(ui->radioButton_30->isChecked()){
-            ui->radioButton_30->setAutoExclusive(false);
             ui->radioButton_30->setChecked(false);
-            ui->radioButton_30->setAutoExclusive(true);
             session.d2.at(hand.at(3)).changeIn();
         }else if(ui->radioButton_29->isChecked()){
-            ui->radioButton_29->setAutoExclusive(false);
             ui->radioButton_29->setChecked(false);
-            ui->radioButton_29->setAutoExclusive(true);
             session.d2.at(hand.at(2)).changeIn();
         }else if(ui->radioButton_28->isChecked()){
-            ui->radioButton_28->setAutoExclusive(false);
             ui->radioButton_28->setChecked(false);
-            ui->radioButton_28->setAutoExclusive(true);
             session.d2.at(hand.at(1)).changeIn();
         }else if(ui->radioButton_27->isChecked()){
-            ui->radioButton_27->setAutoExclusive(false);
             ui->radioButton_27->setChecked(false);
-            ui->radioButton_27->setAutoExclusive(true);
             session.d2.at(hand.at(0)).changeIn();
         }
+
+
+        if(ui->radioButton_36->isChecked()){
+            ui->radioButton_36->setChecked(false);
+            session.d2.at(hand1.at(5)).changeIn();
+        }else if(ui->radioButton_33->isChecked()){
+            ui->radioButton_33->setChecked(false);
+            session.d2.at(hand1.at(4)).changeIn();
+        }else if(ui->radioButton_38->isChecked()){
+            ui->radioButton_38->setChecked(false);
+            session.d2.at(hand1.at(3)).changeIn();
+        }else if(ui->radioButton_37->isChecked()){
+            ui->radioButton_37->setChecked(false);
+            session.d2.at(hand1.at(2)).changeIn();
+        }else if(ui->radioButton_34->isChecked()){
+            ui->radioButton_34->setChecked(false);
+            session.d2.at(hand1.at(1)).changeIn();
+        }else if(ui->radioButton_33->isChecked()){
+            ui->radioButton_33->setChecked(false);
+            session.d2.at(hand1.at(0)).changeIn();
+        }
+
+
+
     }
+    choiceGroup1->setExclusive(true);
+    choiceGroup2->setExclusive(true);
 
 }
 
@@ -290,16 +333,9 @@ void MainWindow::RI(int player, std::string destiny){
             }
     }
     pages.erase(pages.begin());
-    codeT.erase(codeT.begin(), codeT.begin()+2);
+
     if(pages.size()==0){
         ui->pushButton_24->setText("Back to Board");
-        counter++;
-        if(turn==1){
-            turn=2;
-        }else{
-            turn=1;
-        }
-
     }else if(pages.at(0)==12){
         ui->pushButton_24->setText("Next ("+QString::fromStdString(session.x2.getName())+")");
     }
@@ -372,16 +408,12 @@ void MainWindow::RK(int player){
 
         ui->stackedWidget->setCurrentIndex(12);
         pages.erase(pages.begin());
-        codeT.erase(codeT.begin(), codeT.begin()+2);
+
     if(pages.size()==0){
         ui->pushButton_24->setText("Back to Board");
-        counter++;
-        if(turn==1){
-            turn=2;
-        }else{
-            turn=1;
-        }
 
+    }else{
+        ui->pushButton_24->setText("Next");
     }
     connect(ui->pushButton_24, SIGNAL(clicked()), this, SLOT(go_page()));
 }
@@ -420,17 +452,13 @@ void MainWindow::RR(int player){
         }
         ui->stackedWidget->setCurrentIndex(12);
         pages.erase(pages.begin());
-        codeT.erase(codeT.begin());
+
     if(pages.size()==0){
-        ui->pushButton_24->setText("Back to Board");
-        counter++;
-        if(turn==1){
-            turn=2;
-        }else{
-            turn=1;
-        }
-        connect(ui->pushButton_24, SIGNAL(clicked()), this, SLOT(go_page()));
+        ui->pushButton_24->setText("Back to Board");    
+    }else{
+        ui->pushButton_24->setText("Next");
     }
+    connect(ui->pushButton_24, SIGNAL(clicked()), this, SLOT(go_page()));
 }
 
 void MainWindow::SI(int player, std::string destiny){
@@ -555,10 +583,10 @@ void MainWindow::SI(int player, std::string destiny){
     else {
         int temp = 8;
         if (destiny == "ANY") {
-            std::cout << session.x2.getName() + ", choose one DESTINY to swap in:\n";
+
             for (int i = 0; i < session.d2.size(); i++) {
                 if (!session.d2.at(i).getIn()) {
-                    std::cout << session.d2.at(i).printFull();
+
                     hand.push_back(i);
                     index++;
                 }
@@ -585,12 +613,12 @@ void MainWindow::SI(int player, std::string destiny){
             int temp2 = 8;
             for (int i = 0; i < session.d2.size(); i++) {
                 if (session.d2.at(i).getName() == "HEARTBREAKER" && !session.d2.at(i).getIn()) {
-                    std::cout << session.d2.at(i).printFull();
+
                     available++;
                     temp1 = i;
                 }
                 if (session.d2.at(i).getName() == "HONORABLE EXIT" && !session.d2.at(i).getIn()) {
-                    std::cout << session.d2.at(i).printFull();
+
                     available++;
                     temp2 = i;
                 }
@@ -665,9 +693,9 @@ void MainWindow::SI(int player, std::string destiny){
 
     ui->pushButton_24->setText("Confirm");
     ui->stackedWidget->setCurrentIndex(12);
-    connect(ui->pushButton_24, SIGNAL(clicked()), this, SLOT(on_RI()));
+    connect(ui->pushButton_24, SIGNAL(clicked()), this, SLOT(go_page()));
     pages.erase(pages.begin());
-    codeT.erase(codeT.begin());
+
 
 }
 
@@ -759,15 +787,16 @@ void MainWindow::SO(int player, std::string destiny){
     }
     ui->pushButton_24->setText("Confirm");
     ui->stackedWidget->setCurrentIndex(12);
-    connect(ui->pushButton_24, SIGNAL(clicked()), this, SLOT(on_RI()));
+    connect(ui->pushButton_24, SIGNAL(clicked()), this, SLOT(go_page()));
     pages.erase(pages.begin());
-    codeT.erase(codeT.begin());
+
 }
 
 
 void MainWindow::destinyEffectEnd(){
     changeDestiny();
     disconnect(ui->pushButton_24, SIGNAL(clicked()), 0, 0);
+    resetChapterButtons();
     to_Board();
 }
 
@@ -804,69 +833,69 @@ void MainWindow::on_RK(){
         ui->radioButton_32->setAutoExclusive(false);
         ui->radioButton_32->setChecked(false);
         ui->radioButton_32->setAutoExclusive(true);
-         ui->label_77->setText(QString::fromStdString(temp.at(5).getName() + " in hand."));
+         ui->label_77->setText(ui->label_77->text()+QString::fromStdString(temp.at(5).getName() + " ."));
     }else if(ui->radioButton_31->isChecked()){
         ui->radioButton_31->setAutoExclusive(false);
         ui->radioButton_31->setChecked(false);
         ui->radioButton_31->setAutoExclusive(true);
-        ui->label_77->setText(QString::fromStdString(temp.at(4).getName() + " in hand."));
+        ui->label_77->setText(ui->label_77->text()+QString::fromStdString(temp.at(4).getName() + " in hand."));
     }else if(ui->radioButton_30->isChecked()){
         ui->radioButton_30->setAutoExclusive(false);
         ui->radioButton_30->setChecked(false);
         ui->radioButton_30->setAutoExclusive(true);
-        ui->label_77->setText(QString::fromStdString(temp.at(3).getName() + " in hand."));
+        ui->label_77->setText(ui->label_77->text()+QString::fromStdString(temp.at(3).getName() + " in hand."));
     }else if(ui->radioButton_29->isChecked()){
         ui->radioButton_29->setAutoExclusive(false);
         ui->radioButton_29->setChecked(false);
         ui->radioButton_29->setAutoExclusive(true);
-        ui->label_77->setText(QString::fromStdString(temp.at(2).getName() + " in hand."));
+        ui->label_77->setText(ui->label_77->text()+QString::fromStdString(temp.at(2).getName() + " in hand."));
     }else if(ui->radioButton_28->isChecked()){
         ui->radioButton_28->setAutoExclusive(false);
         ui->radioButton_28->setChecked(false);
         ui->radioButton_28->setAutoExclusive(true);
-        ui->label_77->setText(QString::fromStdString(temp.at(1).getName() + " in hand."));
+        ui->label_77->setText(ui->label_77->text()+QString::fromStdString(temp.at(1).getName() + " in hand."));
     }else if(ui->radioButton_27->isChecked()){
         ui->radioButton_27->setAutoExclusive(false);
         ui->radioButton_27->setChecked(false);
         ui->radioButton_27->setAutoExclusive(true);
-        ui->label_77->setText(QString::fromStdString(temp.at(0).getName() + " in hand."));
+        ui->label_77->setText(ui->label_77->text()+QString::fromStdString(temp.at(0).getName() + " in hand."));
     }
 
     ui->pushButton_24->setEnabled(true);
     connect(ui->pushButton_24, SIGNAL(clicked()), this, SLOT(go_page()));
 }
 
-void MainWindow::on_SI(){
-    //todo: backend SI
-    QButtonGroup* choiceGroup1 = new QButtonGroup;
-    choiceGroup1->addButton(ui->radioButton_32);
-    choiceGroup1->addButton(ui->radioButton_31);
-    choiceGroup1->addButton(ui->radioButton_30);
-    choiceGroup1->addButton(ui->radioButton_29);
-    choiceGroup1->addButton(ui->radioButton_28);
-    choiceGroup1->addButton(ui->radioButton_27);
+void MainWindow::resetChapterButtons(){
+    disconnect(ui->pushButton_13, SIGNAL(clicked()), 0, 0);
+    disconnect(ui->pushButton_15, SIGNAL(clicked()), 0, 0);
 
+    QButtonGroup* choiceGroup1 = new QButtonGroup;
+    choiceGroup1->addButton(ui->radioButton_4);
+    choiceGroup1->addButton(ui->radioButton_5);
+    choiceGroup1->addButton(ui->radioButton_6);
+    choiceGroup1->setExclusive(false);
 
     QButtonGroup* choiceGroup2 = new QButtonGroup;
-    choiceGroup1->addButton(ui->radioButton_36);
-    choiceGroup1->addButton(ui->radioButton_33);
-    choiceGroup1->addButton(ui->radioButton_38);
-    choiceGroup1->addButton(ui->radioButton_37);
-    choiceGroup1->addButton(ui->radioButton_34);
-    choiceGroup1->addButton(ui->radioButton_35);
+    choiceGroup2->addButton(ui->radioButton_19);
+    choiceGroup2->addButton(ui->radioButton_20);
+    choiceGroup2->addButton(ui->radioButton_21);
+    choiceGroup2->setExclusive(false);
 
-
-    if(pages.size()==0){
-        ui->pushButton_24->setText("Back to Board");
-        counter++;
-        if(turn==1){
-            turn=2;
-        }else{
-            turn=1;
-        }
-
+    if(ui->radioButton_4->isChecked()){
+        ui->radioButton_4->setChecked(false);
+    }else if(ui->radioButton_5->isChecked()){
+        ui->radioButton_5->setChecked(false);
+    }else if(ui->radioButton_6->isChecked()){
+        ui->radioButton_6->setChecked(false);
     }
 
-    disconnect(ui->pushButton_24, SIGNAL(clicked()), 0, 0);
-    connect(ui->pushButton_24, SIGNAL(clicked()), this, SLOT(go_page()));
+    if(ui->radioButton_19->isChecked()){
+        ui->radioButton_19->setChecked(false);
+    }else if(ui->radioButton_20->isChecked()){
+        ui->radioButton_20->setChecked(false);
+    }else if(ui->radioButton_21->isChecked()){
+        ui->radioButton_21->setChecked(false);
+    }
+    choiceGroup1->setExclusive(true);
+    choiceGroup2->setExclusive(true);
 }
